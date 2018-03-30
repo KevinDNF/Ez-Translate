@@ -2,7 +2,8 @@
 
 # Target Audience
 
-Multicultural companies.
+Multilingual companies.
+
 International Schools/Universities
 
 # Features
