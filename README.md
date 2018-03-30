@@ -47,10 +47,12 @@ International Schools/Universities
 ## Back End
 
 ### Inputs and Outputs (Muklek)
+Input
 * Get file from USB
 * Get file from Scan
 * Get file from Cloud
 
+Output
 * Print
 * Save to USB
 * Upload to Cloud
