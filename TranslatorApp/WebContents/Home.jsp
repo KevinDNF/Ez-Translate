@@ -93,8 +93,8 @@
                        Lock Settings 
                     </button>
                     <p>Accent Color:</p>
-                    <button type="button" class="longButton">
-                       Red 
+                    <button type="button" class="longButton" onclick="pickAColour()">
+                       Pick a colour 
                     </button>
                     <button type="button" class="longButton">
                        Set settings as default 
@@ -141,6 +141,21 @@
                     <input type="text">
                         Passwords
                     </input>
+                </div>
+            </form>
+            <form id="pickAColour">
+                <div class="header">
+                    <h2>Pick a colour</h2>
+                    <button type="button" class="close" onclick="exitOverlay()">
+                        close
+                    </button>
+                </div>
+                <div class="main">
+                    <select id="select">
+                    <option value="A" style="background-color: white;">White</option>
+                    <option value="B" style="background-color: red;">Red</option>
+                    <option value="C" style="background-color: yellow;">Yellow</option>
+                    <option value="D" style="background-color: green;">Green</option>
                 </div>
             </form>
         </div>
