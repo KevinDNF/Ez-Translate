@@ -12,6 +12,11 @@ function exitOverlay(){
     document.getElementById("pickCloud").classList.remove("show");
 }
 
+function pickAColour(){
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("pickAColour").classList.add("show");
+}
+
 $('#select').change(function(){
     if($(this).val() == 'A'){ 
       $("p").css('background-color', 'white');
