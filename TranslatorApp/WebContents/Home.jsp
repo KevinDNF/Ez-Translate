@@ -8,6 +8,7 @@
     <title>Ez Translate</title>
     <script src="/ksf/js/hypas-api.js" language="JavaScript"></script>
     <script src="js/script.js"></script>
+    <script src="js/tn.js"></script>
   </head>
 
   <body onload="HyPAS.App.fullScreen(false);">
@@ -60,10 +61,11 @@
                 </div>
             </form>
 
-            <iframe src="js/lib/pdfjs/web/viewer.html?file=%2FTranslatorApp/tempPDFs/temp.pdf">
+            <iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
                Something went wrong... 
             </iframe>
-
+            <a href="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">TEST</a>
+            <a href="editDocument.jsp">GoToTest</a>
             <form>
                 <div class="header">
                     <h2>Save To</h2>
@@ -77,7 +79,7 @@
                         <img src="img/CloudUP.png" alt="Cloud">
                         <p>Cloud
                     </button>
-                     <button type="button">
+                     <button type="button" onclick="getHTML()">
                          <img src="img/Print.png" alt="Print">
                          <p>Print
                     </button>           

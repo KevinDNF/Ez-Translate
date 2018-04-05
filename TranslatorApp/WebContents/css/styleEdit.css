@@ -1,0 +1,25 @@
+#frame{
+	position:absolute;
+	top: 200px;
+	left:0px;	
+	background-color:gray;
+	color:black;
+	height:100%;
+	width:48%;
+}
+
+#edited{
+	position:absolute;
+	top:200px;
+	left:580px;
+	background-color:gray;
+	color:black;
+}
+
+#edited .textLayer
+ > div {
+    color: black;
+}
+#edited .textLayer {
+	opacity:1;
+}

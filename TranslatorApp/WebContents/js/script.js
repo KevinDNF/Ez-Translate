@@ -1,3 +1,8 @@
+
+function getHTML(){
+	alert(document.documentElement.innerHTML);
+}
+
 function pickCloudService(){
     document.getElementById("overlay").classList.add("show");
     document.getElementById("pickCloud").classList.add("show");
