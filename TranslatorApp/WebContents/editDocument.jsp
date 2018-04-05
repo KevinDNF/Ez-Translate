@@ -10,7 +10,7 @@
 <script src="js/tn.js"></script>
 </head>
 	
-	<button onclick="editFile()">EDIT DOCUMENT</button>	
+	<button onclick="translateHTML()">EDIT DOCUMENT</button>	
 	
 	<iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
 		Original Document goes here.
