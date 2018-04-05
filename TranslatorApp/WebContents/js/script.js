@@ -11,3 +11,18 @@ function exitOverlay(){
     document.getElementById("login").classList.remove("show");
     document.getElementById("pickCloud").classList.remove("show");
 }
+
+$('#select').change(function(){
+    if($(this).val() == 'A'){ 
+      $("p").css('background-color', 'white');
+    }
+      if($(this).val() == 'B'){
+      $("p").css('background-color', 'red');
+    }
+      if($(this).val() == 'C'){
+      $("p").css('background-color', 'yellow');
+    }
+      if($(this).val() == 'D'){
+      $("p").css('background-color', 'green');
+    }
+});
