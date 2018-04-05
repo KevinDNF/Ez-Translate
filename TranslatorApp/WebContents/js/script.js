@@ -19,15 +19,15 @@ function pickAColour(){
 
 $('#select').change(function(){
     if($(this).val() == 'A'){ 
-      $("p").css('background-color', 'white');
+      $("header").css('background-color', 'white');
     }
       if($(this).val() == 'B'){
-      $("p").css('background-color', 'red');
+      $("header").css('background-color', 'red');
     }
       if($(this).val() == 'C'){
-      $("p").css('background-color', 'yellow');
+      $("header").css('background-color', 'yellow');
     }
       if($(this).val() == 'D'){
-      $("p").css('background-color', 'green');
+      $("header").css('background-color', 'green');
     }
 });
