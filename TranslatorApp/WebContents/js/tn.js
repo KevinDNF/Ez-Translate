@@ -1,10 +1,10 @@
 
-function getHTML(){
-	var iframe = document.getElementById('frame');
+function getPages(from){
+	var iframe = document.getElementById(from);
 	var iframeContent = iframe.contentDocument || iframe.contentWindow.document;
-	var viewer = iframeContent.getElementById("viewer");
-	//document.body.innerHTML = viewer.innerHTML;
-	return viewer.innerHTML;
+
+	var pages = iframeContent.getElementsByClassName("page");
+	return pages;
 }
 
 
@@ -14,11 +14,31 @@ function changeText(){
 
 
 function editFile(){
-	var viewerHTML = getHTML();
+	var pages = getPages("frame");
 	var editContainer = document.getElementById("edited");
-	editContainer.innerHTML = viewerHTML;
-
+	//Edit
+	changeText(pages[0]);
+	//Edit
+	editContainer.innerHTML = pages[0].innerHTML;
 }
+
+function changeText(page){
+	var textLayer = page.getElementsByClassName("textLayer")[0];
+	var text = textLayer.getElementsByTagName("div");
+	
+	for (i = 0; i < 11; i++) {
+	    text[i].innerHTML = "HELLO WORLD";
+	}
+	
+	console.log(page);
+	
+	
+	return page;
+}
+
+
+
+
 function test(){
 	var headHTML = editContainer.getElementsByTagName('head').innerHTML;
 	

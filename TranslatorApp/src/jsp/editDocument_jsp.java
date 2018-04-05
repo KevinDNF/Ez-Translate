@@ -38,7 +38,7 @@ public class editDocument_jsp extends HttpJspBase {
       out = pageContext.getOut();
       _jspx_out = out;
 
-      out.write("\n<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n<html>\n<head>\n<link rel=\"stylesheet\" href=\"js/lib/pdfjs/web/viewer.css\">\n<link rel=\"stylesheet\" href=\"css/styleEdit.css\">\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<title>Insert title here</title>\n<script src=\"js/tn.js\"></script>\n</head>\n\t\n\t<button onclick=\"editFile()\">EDIT</button>\t\n\t\n\t<iframe id=\"frame\" src=\"js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf\">\n\taa\n\t</iframe>\n\n\t<div id=\"edited\">\n\taa\n\t</div>\n\n</html>\n");
+      out.write("\n<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n<html>\n<head>\n<link rel=\"stylesheet\" href=\"js/lib/pdfjs/web/viewer.css\">\n<link rel=\"stylesheet\" href=\"css/styleEdit.css\">\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<title>Insert title here</title>\n<script src=\"js/tn.js\"></script>\n</head>\n\t\n\t<button onclick=\"editFile()\">EDIT DOCUMENT</button>\t\n\t\n\t<iframe id=\"frame\" src=\"js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf\">\n\t\tOriginal Document goes here.\n\t</iframe>\n\n\t<div id=\"edited\">\n\t\tEdited Document will go here\t\n\t</div>\n\n</html>\n");
                                                                                                                 } catch (Throwable t) {
       out = _jspx_out;
       if (out != null && out.getBufferSize() != 0)
