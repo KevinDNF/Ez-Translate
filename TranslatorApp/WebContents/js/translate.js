@@ -1,27 +1,30 @@
-function test(){
-    var pages = getPages("frame");
-    var editContainer = document.getElementById("edited");
-    //Get Text
-    var textArray = extractPageData(pages[0]);
-    //End of get Text
-    //Change Text
-    var textLayer = pages[0].getElementsByClassName("textLayer")[0];
-    var textElements = textLayer.getElementsByTagName("div");
-    //text Elements is a array;
+//KevinDNF
+//
 
-    for (i =0; i< textElements.length; i++){
-            //translate then position then replace then redraw
+
+//main function
+//call to start translating document
+//Source document from id="frame" has to have the same DOM structure as pdf.js
+//Target document is id="edited" which can be an empty div
+function translateDocument(){
+    var pageID = 0;
+    var pages = getPages("frame")
+
+    //duplicates viewer
+    document.getElementById("edited").innerHTML = pages[pageID].innerHTML; 
+
+    //Process text Elements
+    var textArray = processTextElements(pages[pageID]);
+
+    for (i = 0; i < textArray.length; i++){
+        //translate, position, replace then redraw
         calculateNewElement(textArray[i],i);
     }
-
-
 }
-//End of Change Text
-//------------------------------------------------------------
-//Functions
+//----------------------Functions---------------------------------
 
 //returns an array of pages in from
-//param from is the container of the pages
+//@param from is the container of the pages
 function getPages(from){
     var iframe = document.getElementById(from);
     var iframeContent = iframe.contentDocument || iframe.contentWindow.document;
@@ -29,19 +32,29 @@ function getPages(from){
     var pages = iframeContent.getElementsByClassName("page");
     return pages;
 }
-
-//DATA EXTRACTION
-//Returns a 2d array containing text sections with its propeties
-function extractPageData(page){
+//returns the text elements of the page
+//@param page to extract elements
+function getTextElements(page){
     var textLayer = page.getElementsByClassName("textLayer")[0];
     var textElements = textLayer.getElementsByTagName("div");
-    //array of text elements... ignore the last one
+    return textElements;
+}
+
+//--------------------DATA EXTRACTION-----------------------
+//Returns a 2d array containing text sections with its propeties
+//@param page to extract data
+function processTextElements(page){
+    //get raw text Elements
+    var textElements = getTextElements(page);
+
     var textArray = [];
     var textObject = [];
     
-    for (i=0;i<textElements.length; i++){
+    //array of text elements... ignore the last one
+    for (i=0; i<textElements.length -1; i++){
         textObject = [];
         var style = textElements[i].style;
+        //Must improve
         //can be done by parsing cssText
         var cssText = style.cssText;
 
@@ -59,10 +72,16 @@ function extractPageData(page){
     return textArray;
 }
 
-function calculateNewElement(dataObject,i){
+//---------------------DATA MANIPULATION--------------------------
+//Text gets translated here
+//Todo 
+// - Calculate position
+// - Calculate style
+// - customize target and source language
+function calculateNewElement(dataObject, index){
     var srcLang = "en";
     var tarLang = "es";
-
+    var page = document.getElementById("edited");
     var txt = dataObject[6];
 
     var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
@@ -73,32 +92,33 @@ function calculateNewElement(dataObject,i){
             resp.json()
             .then(function(data){
                 translatedText = data[0][0][0];
-                //maths
+                //maths goes here
                 var newDataObject = dataObject;
                 newDataObject[0] = dataObject[0];//change
                 newDataObject[1] = dataObject[1];//change
-                newDataObject[2] = dataObject[2];
+                newDataObject[2] = dataObject[2];//maybe use a dictionary??
                 newDataObject[3] = dataObject[3];
                 newDataObject[4] = dataObject[4];
                 newDataObject[5] = dataObject[5];
                 newDataObject[6] = translatedText;
                 
-                insertToPage(getPages("frame")[0], newDataObject,i);
-                document.getElementById("edited").innerHTML = getPages("frame")[0].innerHTML;
+                insertToPage(page, newDataObject,  index);
             })
             .catch(function(resp){
                 console.log("Invalid respose: " + resp);
+                //not json?
             })
         })
         .catch(function(resp){
             console.log("Error: " + resp);
+            //no connection? or some other reason?
         })
 }
 
-function insertToPage(page, data,i){
-    var textLayer = page.getElementsByClassName("textLayer")[0]; 
-    var textElements = textLayer.getElementsByTagName("div");
-    
+// Inserts the data object to the page
+function insertToPage(page, data, i){
+    var textElements = getTextElements(page);
+
     textElements[i].style.cssText = data[0];
     textElements[i].style.fontFamily = data[1];
     textElements[i].style.fontSize = data[2];
