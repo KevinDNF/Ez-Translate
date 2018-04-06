@@ -8,7 +8,6 @@
     <title>Ez Translate</title>
     <script src="/ksf/js/hypas-api.js" language="JavaScript"></script>
     <script src="js/script.js"></script>
-    <script src="js/tn.js"></script>
   </head>
 
   <body onload="HyPAS.App.fullScreen(false);">

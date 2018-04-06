@@ -36,7 +36,6 @@ function extractPageData(page){
 		textArray.push(textObject);
 		//document.getElementsByClassName("textLayer")[0].getElementsByTagName("div")[0].style.
 	}
-	console.log(textArray);	
 	return textArray;
 }
 
@@ -70,10 +69,45 @@ function changeText(page, data){
 		// data[i][5];//Top
 		
 		//Translate text here
-		data[i][6] = "Hello World";
+		var newText = translateString(data[i]);
+		data[i][6] = newText;
 	}
+	console.log(data);
 	return data;
 }
+
+function translateString(dataObject){
+	var srcLang = "en";
+	var tarLang = "es";
+	
+	var txt = dataObject[6];
+
+	var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
+        + srcLang + "&tl=" + tarLang + "&dt=t&q=" + encodeURI(txt);
+	
+	fetch(url) // Call the fetch function passing the url of the API as a parameter
+	.then(function(resp){
+		resp.json()
+		.then(function(data){
+			newText = data[0][0][0];
+			//
+			//MANIPULATE HERE
+			dataObject[6] = newText;
+			insertPhrase(dataObject);
+			editContainer.innerHTML = pages[0].innerHTML;
+
+		})
+		.catch(function(resp){
+			console.log("ERROR");
+			console.log(resp);
+		})
+	})
+	.catch(function (resp){
+		console.log("ERROR");
+	})
+	console.log(window.newText);
+}
+
 
 //MAIN
 function translateHTML(){
@@ -81,8 +115,15 @@ function translateHTML(){
 	var editContainer = document.getElementById("edited");
 	//Get text
 	textArray = extractPageData(pages[0])
+	console.log(textArray);	
 	//Change Text
-	textArray = changeText(pages[0], textArray);
+	
+	
+	
+	
+	var newTextObject = changeText(pages[0], textArray);
+	textArray = newTextObject;
+	console.log(textArray);	
 	//Insert Text
 	insertPageData(pages[0], textArray);
 	//

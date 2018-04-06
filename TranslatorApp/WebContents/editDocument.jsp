@@ -7,10 +7,10 @@
 <link rel="stylesheet" href="css/styleEdit.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script src="js/tn.js"></script>
+<script src="js/test.js"></script>
 </head>
 	
-	<button onclick="translateHTML()">EDIT DOCUMENT</button>	
+	<button onclick="test()">EDIT DOCUMENT</button>	
 	
 	<iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
 		Original Document goes here.
