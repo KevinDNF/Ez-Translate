@@ -151,7 +151,7 @@
                     </button>
                 </div>
                 <div class="main">
-                    <select id="select">
+                    <select runat="server" id="select">
                     <option value="A" style="background-color: white;">White</option>
                     <option value="B" style="background-color: red;">Red</option>
                     <option value="C" style="background-color: yellow;">Yellow</option>
