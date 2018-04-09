@@ -13,13 +13,17 @@ function translateDocument(){
     //duplicates viewer
     document.getElementById("edited").innerHTML = pages[pageID].innerHTML; 
 
+    //Optimize Text
+    optimize(document.getElementById("edited"));
     //Process text Elements
     var textArray = processTextElements(pages[pageID]);
-
+/*
     for (i = 0; i < textArray.length; i++){
         //translate, position, replace then redraw
         calculateNewElement(textArray[i],i);
     }
+
+*/
 }
 //----------------------Functions---------------------------------
 
@@ -101,7 +105,6 @@ function calculateNewElement(dataObject, index){
                 newDataObject[4] = dataObject[4];
                 newDataObject[5] = dataObject[5];
                 newDataObject[6] = translatedText;
-                
                 insertToPage(page, newDataObject,  index);
             })
             .catch(function(resp){
@@ -126,4 +129,55 @@ function insertToPage(page, data, i){
     textElements[i].style.length = data[4];
     textElements[i].style.top = data[5];
     textElements[i].innerHTML = data[6];
+}
+
+function optimize(edited){
+    //0 = CssText
+    //1 = fontFamily
+    //2 = fontSize
+    //3 = left
+    //4 = length
+    //5 = top  
+    console.log(edited);
+    textDivs = getTextElements(edited);
+    
+    var prevDiv = null;
+    var currDiv = null;
+
+    for (i = 0; i < textDivs.length-1; i++){
+
+        currDiv = textDivs[i];
+
+        if (  (currDiv != null) && (prevDiv != null) && checkProximity([currDiv, prevDiv],1)){
+            console.log("same Line");
+            console.log(prevDiv);
+            console.log(currDiv);
+            prevDiv.innerHTML += currDiv.innerHTML;
+            textDivs[i].outerHTML = null;
+            currDiv = prevDiv;
+        }
+
+        prevDiv = currDiv;
+    }
+}
+//
+//@param divArray is divs to compare
+//@param accuracy is how close to each other is fine
+//@param side is side to check, can be top or left
+function checkProximity(divArray, accuracy){
+    
+    var a = divArray[0];
+    var b = divArray[1];
+
+    var aWidth = divArray[0].offsetWidth; 
+    var bWidth = divArray[1].offsetWidth; 
+
+    aTop = parseInt(a.style.top.slice(0,-2));
+    bTop = parseInt(a.style.top.slice(0,-2))
+
+
+    if (Math.abs(aTop - bTop) < accuracy){
+        //assume they are part of the same line
+        return true;
+    }
 }
