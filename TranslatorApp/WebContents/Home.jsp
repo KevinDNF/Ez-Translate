@@ -60,10 +60,9 @@
                 </div>
             </form>
 
-            <iframe src="js/lib/pdfjs/web/viewer.html?file=%2FTranslatorApp/tempPDFs/temp.pdf">
+            <iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
                Something went wrong... 
             </iframe>
-
             <form>
                 <div class="header">
                     <h2>Save To</h2>
@@ -77,10 +76,12 @@
                         <img src="img/CloudUP.png" alt="Cloud">
                         <p>Cloud
                     </button>
-                     <button type="button">
+                    <a href="editDocument.jsp">
+                     <button type="button" onclick="">
                          <img src="img/Print.png" alt="Print">
                          <p>Print
                     </button>           
+                    </a>
                 </div>
             </form>
 

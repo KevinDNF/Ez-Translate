@@ -19,8 +19,8 @@ function pickAColour(){
     document.getElementById("pickAColour").classList.add("show");
 }
 function changeColor(color){
-	headers = document.getElementsByClassName("header");
-	for (i=1; i<headers.length; i++){
-		headers[i].style.backgroundColor = color;
-	}
+    headers = document.getElementsByClassName("header");
+    for (i=1; i<headers.length; i++){
+    headers[i].style.backgroundColor = color;
+    }
 }
