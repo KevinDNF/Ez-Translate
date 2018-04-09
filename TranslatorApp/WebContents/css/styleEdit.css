@@ -19,6 +19,7 @@
 #edited .textLayer
  > div {
     color: black;
+    white-space:normal;
 }
 #edited .textLayer {
 	opacity:1;

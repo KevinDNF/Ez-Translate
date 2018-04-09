@@ -16,13 +16,14 @@ function translateDocument(){
     //Optimize Text
     optimize(document.getElementById("edited"));
     //Process text Elements
-    var textArray = processTextElements(pages[pageID]);
-/*
+
+    page = document.getElementById("edited");
+    var textArray = processTextElements(page);
     for (i = 0; i < textArray.length; i++){
         //translate, position, replace then redraw
         calculateNewElement(textArray[i],i);
     }
-
+/*
 */
 }
 //----------------------Functions---------------------------------
@@ -144,21 +145,24 @@ function optimize(edited){
     var prevDiv = null;
     var currDiv = null;
 
+    //check if same line
     for (i = 0; i < textDivs.length-1; i++){
 
         currDiv = textDivs[i];
 
-        if (  (currDiv != null) && (prevDiv != null) && checkProximity([currDiv, prevDiv],1)){
+        if (  (currDiv != null) && (prevDiv != null) && checkProximity([currDiv, prevDiv],3)){
             console.log("same Line");
             console.log(prevDiv);
             console.log(currDiv);
             prevDiv.innerHTML += currDiv.innerHTML;
             textDivs[i].outerHTML = null;
             currDiv = prevDiv;
+            i -= 1;
         }
 
         prevDiv = currDiv;
     }
+    //check if same paragraph here
 }
 //
 //@param divArray is divs to compare
@@ -173,11 +177,12 @@ function checkProximity(divArray, accuracy){
     var bWidth = divArray[1].offsetWidth; 
 
     aTop = parseInt(a.style.top.slice(0,-2));
-    bTop = parseInt(a.style.top.slice(0,-2))
+    bTop = parseInt(b.style.top.slice(0,-2))
 
-
+//offsetHeigh
     if (Math.abs(aTop - bTop) < accuracy){
         //assume they are part of the same line
+    	//expand to check if same line but comuns
         return true;
     }
 }
