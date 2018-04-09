@@ -94,9 +94,9 @@
                     </button>
                     <p>Accent Color:</p>
                     <button type="button" class="longButton" onclick="pickAColour()">
-                       Pick a colour 
+                    	Change color
                     </button>
-                    <button type="button" class="longButton">
+                    <button type="button" class="longButton" onclick="">
                        Set settings as default 
                     </button>           
                 </div>
@@ -137,10 +137,8 @@
                 <div class="main">
                     <input type="text">
                         Username
-                    </input>
                     <input type="text">
                         Passwords
-                    </input>
                 </div>
             </form>
             <form id="pickAColour">
@@ -151,12 +149,19 @@
                     </button>
                 </div>
                 <div class="main">
-                    <select runat="server" id="select">
-                    <option value="A" style="background-color: white;">White</option>
-                    <option value="B" style="background-color: red;">Red</option>
-                    <option value="C" style="background-color: yellow;">Yellow</option>
-                    <option value="D" style="background-color: green;">Green</option>
-                </div>
+                    <button type="button" onclick="changeColor('blue')">
+                   		<div class="colorblock" style="background-color:blue"></div>
+                    </button>          
+                    <button type="button" onclick="changeColor('rgb(223,55,55)')">
+                   		<div class="colorblock" style="background-color:rgb(233,55,55)"></div>
+                    </button>          
+                    <button type="button" onclick="changeColor('green')">
+                   		<div class="colorblock" style="background-color:green"></div>
+                    </button>          
+                    <button type="button" onclick="changeColor('purple')">
+                   		<div class="colorblock" style="background-color:purple"></div>
+                    </button>          
+				</div> 
             </form>
         </div>
     </div>

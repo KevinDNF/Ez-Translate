@@ -7,27 +7,20 @@ function loginToCloud(){
     document.getElementById("login").classList.add("show");
 }
 function exitOverlay(){
-    document.getElementById("overlay").classList.remove("show");
-    document.getElementById("login").classList.remove("show");
-    document.getElementById("pickCloud").classList.remove("show");
+    overlay = document.getElementById("overlay");
+    forms = overlay.children;
+    for (i=0;i<forms.length;i++){
+    	forms[i].classList.remove("show");
+    }
+    overlay.classList.remove("show");
 }
-
 function pickAColour(){
     document.getElementById("overlay").classList.add("show");
     document.getElementById("pickAColour").classList.add("show");
 }
-
-$('#select').change(function(){
-    if($(this).val() == 'A'){ 
-      $("header").css('background-color', 'white');
-    }
-      if($(this).val() == 'B'){
-      $("header").css('background-color', 'red');
-    }
-      if($(this).val() == 'C'){
-      $("header").css('background-color', 'yellow');
-    }
-      if($(this).val() == 'D'){
-      $("header").css('background-color', 'green');
-    }
-});
+function changeColor(color){
+	headers = document.getElementsByClassName("header");
+	for (i=1; i<headers.length; i++){
+		headers[i].style.backgroundColor = color;
+	}
+}

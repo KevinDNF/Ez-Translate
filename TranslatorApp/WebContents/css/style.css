@@ -173,10 +173,10 @@ form .main img{
 #pickCloud{
     display:none;
 }
-#overlay, #login{
+#overlay, #overlay > *{
     display:none;
 }
-#overlay.show, #login.show,#pickCloud.show{
+#overlay.show, #overlay > .show{
     display:block;
 }
 iframe{
@@ -185,4 +185,9 @@ iframe{
     width:327px;
     background-color:rgb(233,234,233);
     border-radius:5px;
+}
+.colorblock{
+	padding:20px;
+	border-style:solid;	
+	margin:15px;
 }
