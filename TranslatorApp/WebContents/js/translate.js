@@ -11,7 +11,8 @@ function translateDocument(){
     var pages = getPages("frame")
 
     //duplicates viewer
-    document.getElementById("edited").innerHTML = pages[pageID].innerHTML; 
+    pageContent = pages[pageID].getElementsByClassName("textLayer")[0].outerHTML;
+    document.getElementById("edited").innerHTML = pageContent; 
 
     //Optimize Text
     optimize(document.getElementById("edited"));

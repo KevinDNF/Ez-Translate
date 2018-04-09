@@ -185,9 +185,27 @@ iframe{
     width:327px;
     background-color:rgb(233,234,233);
     border-radius:5px;
+    display:none;
 }
 .colorblock{
 	padding:20px;
 	border-style:solid;	
 	margin:15px;
+}
+#edited{
+	height:100%;
+	border-style:solid;
+	width:327px;
+    background-color:rgb(233,234,233);
+    border-radius:5px;
+    margin:0;
+    padding:0;
+}
+.textlayer{
+	background-color:white;
+}
+.textLayer > div{
+	position:relative;
+	white-space:pre;
+	transform-origin:0% 0%;
 }
