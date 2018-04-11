@@ -30,35 +30,3 @@ International Schools/Universities
 # Future Goals
 * Auto detect language
 * Read handwritten text - OCR
-
-----
-----
-
-# Tasks
-
-## Front End (KevinDNF)
-
-* UI Design
-* App Icon Design
-* Loading Animations
-* Sound effects
-* Preview of PDF
-* Zoom + Pan of preview
- 
-## Back End
-
-### Inputs and Outputs (Muklek)
-Input
-* Get file from USB
-* Get file from Scan
-* Get file from Cloud
-
-Output
-* Print
-* Save to USB
-* Upload to Cloud
-
-### Process File (Mindo)
-* Extract text from file
-* Translate Text
-* Place text at exact location
