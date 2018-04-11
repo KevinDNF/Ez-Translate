@@ -1,0 +1,9 @@
+package translatorapp;
+
+
+class ScanJob {
+
+	
+	
+	
+}

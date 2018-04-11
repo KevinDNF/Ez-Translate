@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><web-app>
-<!--
+
   <servlet>
-    <servlet-name>myservlet1</servlet-name>
-    <servlet-class>aaa.testServlet</servlet-class>
+    <servlet-name>MainServlet</servlet-name>
+    <servlet-class>translatorapp.JobServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>myservlet1</servlet-name>
-    <url-pattern>/servlet/myservlet.do</url-pattern>
+    <servlet-name>MainServlet</servlet-name>
+    <url-pattern>/JobServlet</url-pattern>
   </servlet-mapping>
-  -->
+
+ 
  <Context path="/TranslatorApp"/>
 
 </web-app>

@@ -14,7 +14,6 @@ public class HyPASActivator implements BundleActivator {
 
 	// The shared instance
 	private static HyPASActivator plugin;
-	
 	/**
 	 * The constructor
 	 */

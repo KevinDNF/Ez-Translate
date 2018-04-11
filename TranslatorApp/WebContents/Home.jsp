@@ -28,7 +28,7 @@
                 </div>
                 <div class="main">
                     <button type="button">
-                        <img src="img/USB.png" alt="USB">
+                        <img src="img/USB.png" alt="USB" onclick="location.href='JobServlet'" >
                         <p>USB
                     </button>
                     <button type="button" onclick="pickCloudService()">
