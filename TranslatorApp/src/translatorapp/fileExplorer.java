@@ -44,8 +44,19 @@ public class fileExplorer {
 	//TODO generate array of file directory to be parsed into html or just directly HTML;
 	public void printFiles(StorageFile[] files){
 		for (int i =0; i<files.length;i++){
+			if (files[i].isDirectory()){
+				System.out.println("----------------------------------------------");
+				System.out.println("Found Folder  :");
+				System.out.println(files[i].getName());
+				System.out.println("----------------------------------------------");
+				printFiles(files[i].listFiles());
+			}
+			System.out.println("----------------------------------------------");
+			System.out.println("Found File at :");
 			System.out.println(files[i].getParent());
+			System.out.println("Name : ");
 			System.out.println(files[i].getName());
+			System.out.println("----------------------------------------------");
 		}
 	}
 }
