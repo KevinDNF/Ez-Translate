@@ -36,7 +36,10 @@ public class JobServlet extends HttpServlet {
 		throws ServletException, IOException{
 
 		fileExplorer fe = new fileExplorer(bc);
-
+		
+		
+		ServletContext sc = getServletContext();
+        sc.getRequestDispatcher("/TranslatorApp/Home.jsp?Explorer=True").forward(req, resp);
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
