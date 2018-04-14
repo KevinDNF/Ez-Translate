@@ -38,7 +38,9 @@ public class fileExplorer {
 			if (devices[i].isAvailable()){
 				System.out.println("SCANNING : " + devices[i]);
 				StorageFile[] files = devices[i].getStorageFile("/").listFiles();
-				//printFiles(files);
+				System.out.println("Before Printing Files");
+				printFiles(files);
+				System.out.println("After Printing Files");
 			}else{
 				System.out.println("Device : " + devices[i] + " is unavailable.");
 			}

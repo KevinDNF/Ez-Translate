@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><web-app>
 
   <servlet>
-    <servlet-name>MainServlet</servlet-name>
+    <servlet-name>MenuServlet</servlet-name>
     <servlet-class>translatorapp.MenuServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/MainMenu</url-pattern>
+    <servlet-name>MenuServlet</servlet-name>
+    <url-pattern>/MenuServlet</url-pattern>
   </servlet-mapping>
 
  

@@ -1,7 +1,13 @@
 package translatorapp;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -14,6 +20,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
 import jp.co.kyoceramita.app.AppContext;
+import jp.co.kyoceramita.user.attribute.DomainName;
 
 public class MenuServlet extends HttpServlet {
 
@@ -43,17 +50,31 @@ public class MenuServlet extends HttpServlet {
 			System.out.println("PARAM : " + param);
 			if (param.equals("FileExplorer")){
 				System.out.println("FILE EXPLORER");
-				//TODO add listener on pug/unplug to avoid reloading(optimization)
+				//TODO add listener on plug/unplug to avoid reloading(optimization)
 				fe.reload();
 				
 			    resp.setContentType("application/text");
 			    resp.setCharacterEncoding("UTF-8");
 
-			    resp.getWriter().write(html());	
+			    resp.getWriter().write(html());
 			    
+			    
+			}else if(param.equals("FileChosen")){
+				System.out.println("FILE TO TRANSLATE WAS CHOSEN");
+				
+				
 			}else if(param.equals("Scan")){
 				System.out.println("SCANNING");
+			
+			}else if(param.equals("Print")){
+				System.out.println("PRINTING");
+				PrinterJob pj = PrinterJob.getInstance();
+				pj.createJobAttributeSet();
+				pj.createJob();
+				pj.start();
 			}
+			
+			
 		}else{
 			//Assume its a first load or reload.
 			System.out.println("New client");
@@ -61,7 +82,6 @@ public class MenuServlet extends HttpServlet {
 			sc.getRequestDispatcher("/TranslatorApp/MainMenu.jsp").forward(req, resp);
 		}
 	}
-	
 
 	private String html(){
 		String html = "";
