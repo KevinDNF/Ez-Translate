@@ -2,12 +2,12 @@
 
   <servlet>
     <servlet-name>MainServlet</servlet-name>
-    <servlet-class>translatorapp.JobServlet</servlet-class>
+    <servlet-class>translatorapp.MenuServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/JobServlet</url-pattern>
+    <url-pattern>/MainMenu</url-pattern>
   </servlet-mapping>
 
  

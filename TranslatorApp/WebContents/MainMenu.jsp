@@ -28,7 +28,7 @@
                 </div>
                 <div class="main">
                     <button type="button">
-                        <img src="img/USB.png" alt="USB" onclick="location.href='JobServlet'" >
+                        <img src="img/USB.png" alt="USB" onclick="openFileExplorer()" >
                         <p>USB
                     </button>
                     <button type="button" onclick="pickCloudService()">
@@ -167,6 +167,10 @@
                     </button>          
 				</div> 
             </form>
+            
+			<form id="fileExplorer">
+
+			</form> 
         </div>
     </div>
 </body>

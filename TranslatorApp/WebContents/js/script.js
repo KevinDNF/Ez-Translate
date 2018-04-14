@@ -24,3 +24,20 @@ function changeColor(color){
     headers[i].style.backgroundColor = color;
     }
 }
+var menuUrl = "MainMenu"; 
+
+function openFileExplorer(){
+	url = menuUrl + "?Action=FileExplorer";
+	fetch(url)
+	.then((resp) => {
+			console.log(resp)
+			resp.text().then((text) => {
+				console.log(text)
+				document.getElementById("fileExplorer").innerHTML = text;
+				document.getElementById("overlay").classList.add("show");
+				document.getElementById("fileExplorer").classList.add("show"); 
+				})
+				.catch((err) => console.log(err))
+			})
+		.catch((resp) => console.log("Error: " + resp))
+}

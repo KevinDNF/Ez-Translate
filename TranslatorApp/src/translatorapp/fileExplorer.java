@@ -19,12 +19,15 @@ public class fileExplorer {
 		
 		sm = StorageManager.getInstance(appCtx);
 
-		scanFileSystem(StorageType.USB_MEMORY);
-		scanFileSystem(StorageType.HDD);
-
 		//RAMDISK and cf_memory give errors. This could be due to the simulated enviroment.
 		//scanFileSystem(RAMDISK); 
 		//scanFileSystem(CF_MEMORY);
+	}
+	
+	public void reload(){
+		System.out.println("Reloading...");
+		scanFileSystem(StorageType.USB_MEMORY);
+		scanFileSystem(StorageType.HDD);
 	}
 	
 	public void scanFileSystem(StorageType storageType){
@@ -35,10 +38,13 @@ public class fileExplorer {
 			if (devices[i].isAvailable()){
 				System.out.println("SCANNING : " + devices[i]);
 				StorageFile[] files = devices[i].getStorageFile("/").listFiles();
-				printFiles(files);
+				//printFiles(files);
 			}else{
 				System.out.println("Device : " + devices[i] + " is unavailable.");
 			}
+		}
+		if (devices.length == 0){
+			System.out.println("No devices found");
 		}
 	}
 	//TODO generate array of file directory to be parsed into html or just directly HTML;
