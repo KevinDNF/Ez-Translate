@@ -64,27 +64,30 @@
             <iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
                Something went wrong... 
             </iframe>
-            <div id="edited">
+            <div id="edited" onclick="displayPath()">
+            	Hello
             </div>
             <form>
                 <div class="header">
                     <h2>Save To</h2>
                 </div>
                 <div class="main">
+                	<a href="editDocument.jsp">
                     <button type="button" onclick="translateDocument()">
                         <img src="img/USB.png" alt="USB">
                         <p>Translate
                     </button>
+                    </a>
                     <button type="button" onclick="pickCloudService()">
                         <img src="img/CloudUP.png" alt="Cloud">
                         <p>Cloud
                     </button>
-                    <a href="editDocument.jsp">
-                     <button type="button" onclick="">
+                    
+                    <button type="button" onclick="location.href='MenuServlet?Action=Print'">
                          <img src="img/Print.png" alt="Print">
                          <p>Print
                     </button>           
-                    </a>
+                    
                 </div>
             </form>
 
