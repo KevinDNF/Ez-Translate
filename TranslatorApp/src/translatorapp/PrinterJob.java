@@ -20,41 +20,40 @@ import jp.co.kyoceramita.job.attribute.RemovableMemoryToPrintJobAttributeSet;
 import jp.co.kyoceramita.job.attribute.RemovableMemoryToPrintJobCreationAttributeSet;
 import jp.co.kyoceramita.job.event.JobEventListener;
 import jp.co.kyoceramita.print.attribute.ColorMode;
+import jp.co.kyoceramita.storage.StorageManager;
 import jp.co.kyoceramita.storage.StorageType;
 import jp.co.kyoceramita.util.KSFUtility;
 
 public class PrinterJob {
 
-	private static PrinterJob printerjob = null;
     private AppToPrintJobCreationAttributeSet att_set = null;
 	private Job m_job = null;
+//---
 	private static int jobStatus;
 	private static String sJobCont = "";
+	private static PrinterJob printerjob = null;
+//---
 
-	private PrinterJob() {
+	private AppContext appCtx;
+	
+	public PrinterJob(BundleContext bc) {
+		
+		KSFUtility ksf = KSFUtility.getInstance(); 
+		//can be simplified out of this class
+		appCtx = ksf.getApplicationContext(bc);
 	}
-
-	public static PrinterJob getInstance() {
-		if (printerjob == null)
-			createInstance();
-		return printerjob;
-	}
-
-	private synchronized static void createInstance() {
-		if (printerjob == null)
-			printerjob = new PrinterJob();
-	}
-
+	
+	//Sets the attributes for the printer job
 	public void createJobAttributeSet() {
 
 		att_set = (AppToPrintJobCreationAttributeSet) JobCreationAttributeSet.newInstance(JobType.APP_TO_PRINT);
 		
 		System.out.println("PrinterJob");
 
+		
+		
 	 try {
-		 	BundleContext bc = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-		 	AppContext appCtx = KSFUtility.getInstance().getApplicationContext(bc);
-         	att_set.set(new TargetApp(appCtx, (new File("").getAbsolutePath()).concat("/TranslatorApp/WebContents/tempPDFs/temp.pdf"), StorageType.HDD));
+		 	    att_set.set(new TargetApp(appCtx, "/temp.pdf", StorageType.USB_MEMORY));
          	
          		if (att_set.containsCategory(ColorMode.class)) { 
          		System.out.println("Setting color...");
@@ -100,7 +99,9 @@ public class PrinterJob {
 		att_set.addListener(jaev);*/
 
 	}
+	
 
+	//Create job move out of here
 	public void createJob() {
 
 		try {
@@ -127,7 +128,8 @@ public class PrinterJob {
 		m_job.addListener(jev);*/
 
 	}
-
+	
+	//Start job Move out of here
 	public boolean start() {
 		
 		boolean bRet = false;

@@ -80,10 +80,16 @@ public class MenuServlet extends HttpServlet {
 			
 			}else if(param.equals("Print")){
 				System.out.println("PRINTING");
-				PrinterJob pj = PrinterJob.getInstance();
+				
+				userBox ub = new userBox();
+				
+				/*
+				PrinterJob pj = new PrinterJob(bc);
+
 				pj.createJobAttributeSet();
 				pj.createJob();
 				pj.start();
+				*/
 			}
 			
 			

@@ -34,6 +34,7 @@ public class fileExplorer {
 		
 		HTMLTemplate(path);
 		scanFileSystem(path);
+		
 	}
 	
 	public void scanFileSystem(String path){

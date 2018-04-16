@@ -6,20 +6,10 @@ function loginToCloud(){
     document.getElementById("pickCloud").classList.remove("show");
     document.getElementById("login").classList.add("show");
 }
-
-function displayPath(){
-	
-}
-
 function printDocument(){
 	url = menuUrl + "?Action=Print";
 	fetch(url)
 }
-
-function print(){
-	
-}
-
 function exitOverlay(){
     overlay = document.getElementById("overlay");
     forms = overlay.children;
