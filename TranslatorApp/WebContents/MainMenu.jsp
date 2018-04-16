@@ -28,7 +28,7 @@
                 </div>
                 <div class="main">
                     <button type="button">
-                        <img src="img/USB.png" alt="USB" onclick="openFileExplorer()" >
+                        <img src="img/USB.png" alt="USB" onclick="openFileExplorer('/')" >
                         <p>USB
                     </button>
                     <button type="button" onclick="pickCloudService()">

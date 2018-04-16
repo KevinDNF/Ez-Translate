@@ -47,23 +47,35 @@ public class MenuServlet extends HttpServlet {
 	
         String param = req.getParameter("Action") ;
         if (param != null){ //Switch case would be better but.. java1.6
+        	System.out.println("--------------------");
 			System.out.println("PARAM : " + param);
 			if (param.equals("FileExplorer")){
 				System.out.println("FILE EXPLORER");
-				//TODO add listener on plug/unplug to avoid reloading(optimization)
-				fe.reload();
+				//TODO add listener on pug/unplug to avoid reloading(optimization)
 				
 			    resp.setContentType("application/text");
 			    resp.setCharacterEncoding("UTF-8");
+			    String path = req.getParameter("Path");
 
-			    resp.getWriter().write(html());
+			    fe.reload(path);
+			    resp.getWriter().write(fe.getHTML());	
 			    
-			    
-			}else if(param.equals("FileChosen")){
-				System.out.println("FILE TO TRANSLATE WAS CHOSEN");
+			}else if (param.equals("SelectedFile")){
+				String selectedFile = req.getParameter("Path");
+				System.out.println("-------------------");
+				System.out.println("Selected File: ");
+				System.out.println(selectedFile);
+				System.out.println("-------------------");
 				
+				if (fe.getFile(selectedFile).length() > 1){
+					System.out.println("File content Loaded");
+					//don't print content or it will crash lul
+					//Loading files take a while to load
+					//TODO add loading animation
+				}
+				//DO STUFF WITH FILE
 				
-			}else if(param.equals("Scan")){
+        	}else if(param.equals("Scan")){
 				System.out.println("SCANNING");
 			
 			}else if(param.equals("Print")){
@@ -77,31 +89,14 @@ public class MenuServlet extends HttpServlet {
 			
 		}else{
 			//Assume its a first load or reload.
+			System.out.println("-------------------");
 			System.out.println("New client");
+			System.out.println("-------------------");
 			ServletContext sc = getServletContext();
 			sc.getRequestDispatcher("/TranslatorApp/MainMenu.jsp").forward(req, resp);
 		}
 	}
-
-	private String html(){
-		String html = "";
-		html += "<div class='header'>";
-		html += " <h2>File Explorer</h2>";
-		html += " <button type='button' class='close' onclick='exitOverlay()'>";
-		html += " close";
-		html += " </button>";
-		html += " </div>";
-		html += " <div class='main'>";
-		html += " <div class='colorblock' style='background-color:purple'></div>";
-		html += " <div class='colorblock' style='background-color:purple'></div>";
-		html += " <div class='colorblock' style='background-color:purple'></div>";
-		html += " <div class='colorblock' style='background-color:purple'></div>";
-		html += " <div class='colorblock' style='background-color:purple'></div>";
-		html += " <div class='colorblock' style='background-color:purple'></div>";
-		html += " </div>";
-		return html;
-	}
-
+	
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException{

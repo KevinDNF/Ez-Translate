@@ -40,13 +40,12 @@ function changeColor(color){
 }
 var menuUrl = "MainMenu"; 
 
-function openFileExplorer(){
-	url = menuUrl + "?Action=FileExplorer";
+function openFileExplorer(path){
+	url = menuUrl + "?Action=FileExplorer&Path=" + path;
 	fetch(url)
 	.then((resp) => {
-			console.log(resp)
 			resp.text().then((text) => {
-				console.log(text)
+				console.log("Content Received")
 				document.getElementById("fileExplorer").innerHTML = text;
 				document.getElementById("overlay").classList.add("show");
 				document.getElementById("fileExplorer").classList.add("show"); 
@@ -55,3 +54,16 @@ function openFileExplorer(){
 			})
 		.catch((resp) => console.log("Error: " + resp))
 }
+function prevFolder(path){
+	parentFolder = path.slice(0,path.lastIndexOf("/"));
+	openFileExplorer(parentFolder);
+}
+function selectFile(path){
+	console.log("Loading...")
+	url = menuUrl + "?Action=SelectedFile&Path=" + path;
+	fetch(url)
+	.then((resp) =>{
+		console.log("File Loaded")
+	})
+}
+
