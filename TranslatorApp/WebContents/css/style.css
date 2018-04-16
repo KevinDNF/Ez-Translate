@@ -192,7 +192,7 @@ iframe{
 	border-style:solid;	
 	margin:15px;
 }
-#edited{
+#edited, canvas{
 	height:100%;
 	border-style:solid;
 	width:327px;

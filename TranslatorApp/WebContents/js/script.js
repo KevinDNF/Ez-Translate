@@ -48,6 +48,7 @@ function prevFolder(path){
 	parentFolder = path.slice(0,path.lastIndexOf("/"));
 	openFileExplorer(parentFolder);
 }
+/*
 function selectFile(path){
 	console.log("Loading...")
 	url = menuUrl + "?Action=SelectedFile&Path=" + path;
@@ -56,4 +57,4 @@ function selectFile(path){
 		console.log("File Loaded")
 	})
 }
-
+*/

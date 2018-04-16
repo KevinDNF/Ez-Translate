@@ -9,6 +9,13 @@
     <script src="/ksf/js/hypas-api.js" language="JavaScript"></script>
     <script src="js/script.js"></script>
     <script src="js/translate.js"></script>
+
+		<!-- Library PDF.JS -->
+    <script src="js/lib/pdf.js"></script>
+    <script src="js/lib/pdf.worker.js"></script>
+		<!-- Library PDF.JS -->
+
+    <script src="js/pdfViewer.js"></script>
   </head>
 
   <body onload="HyPAS.App.fullScreen(false);">
@@ -66,13 +73,18 @@
                     </button>
                 </div>
             </form>
-
+						
+						<!--
             <iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
                Something went wrong... 
             </iframe>
             <div id="edited">
             	Hello
             </div>
+						-->
+						<canvas>
+
+						</canvas>
             <form>
                 <div class="header">
                     <h2>Save To</h2>
@@ -190,5 +202,41 @@
 			</form> 
         </div>
     </div>
+<!--- viewer scripts
+	I have done them in the same file as the html to 
+	avoid havin to deal with the importing and all that jazz -->
+
+	<script>
+		var pdf, 
+				currentPage, 
+				totalPage, 
+				pageRendering = 0, 
+				canvas = document.getElementById("viewer"),
+				canvas = canvas.getContext("2d");
+
+		function selectFile(path){
+			console.log("Loading...")
+			url = menuUrl + "?Action=SelectedFile&Path=" + path;
+			fetch(url)
+			.then((resp) =>{
+				resp.text().then((text) = >{
+					console.log("File Loaded")
+					//convert text to base64 encoded data
+					//atob?
+					displayPDF(text);	
+				}
+			})
+		}
+
+		function displayPDF(binData){
+
+			PDFJS.getDocument({data: binData})
+				.then((pdf)=>{
+					console.log(pdf.numPages);	
+					console.log("PDF LOADED");
+					//then we display it
+			});
+		}
+	</script> 
 </body>
 </html>
