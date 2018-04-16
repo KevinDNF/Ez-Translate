@@ -5,11 +5,11 @@ package translatorapp;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.commons.codec.binary.Base64;
 import org.osgi.framework.BundleContext;
 
 
 
-import com.sun.xml.internal.messaging.saaj.util.Base64;
 
 import jp.co.kyoceramita.ksf.*;
 import jp.co.kyoceramita.util.*;
@@ -155,8 +155,9 @@ public class fileExplorer {
 			is.close();
 			StringBuilder str = new StringBuilder();
 			str.append("data:application/pdf;base64,");
-			String converted = Base64.encode(buffer).toString();
+			String converted = Base64.encodeBase64URLSafeString(buffer).toString();
 			str.append(converted);
+			stringData = str.toString();
 			//stringData = str.append(Base64.encode(buffer)).toString();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block check sample prog. 3 catches there

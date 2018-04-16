@@ -219,18 +219,24 @@
 			fetch(url)
 			.then((resp) =>{
 				resp.text().then((buf) => {
-					console.log("File Loaded");
+					console.log("Buffer Received");
 					//convert text to base64 encoded data
+					buf = buf.replace(/-/g,"+");
+					buf = buf.replace(/_/g,"/");
 					console.log(buf);
-					cdata = convertData(buf);
-					displayPDF(cdata);	
+					dd = convertData(buf);
+					//console.log(dd);
+					console.log("File Loaded");
+					//cdata = convertData(buf);
+					
+					displayPDF({data: dd});	
 				})
 			})
 		}
 
 		function displayPDF(binData){
 			data = binData;//convert?
-			pdfjsLib.getDocument({data: data})
+			pdfjsLib.getDocument(data)
 				.then((pdf)=>{
 					console.log(pdf.numPages);	
 					console.log("PDF LOADED");
@@ -251,6 +257,15 @@
 		  	}
 		  	return array;
 		}
+		
+		function base64ToUint8Array(base64) {
+		    var raw = atob(base64);
+		    var uint8Array = new Uint8Array(raw.length);
+		    for (var i = 0; i < raw.length; i++) {
+		      uint8Array[i] = raw.charCodeAt(i);
+		    }
+		    return uint8Array;
+		  }
 		
 	
 	</script> 
