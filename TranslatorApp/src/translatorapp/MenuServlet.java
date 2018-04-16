@@ -67,11 +67,21 @@ public class MenuServlet extends HttpServlet {
 				System.out.println(selectedFile);
 				System.out.println("-------------------");
 				
-				if (fe.getFile(selectedFile).length() > 1){
+				//byte[] binFile = fe.getFile(selectedFile);
+				String strData = fe.getFile(selectedFile);
+							
+				if (strData.length() > 1){
 					System.out.println("File content Loaded");
+					System.out.println("Sending data back");
 					//don't print content or it will crash lul
 					//Loading files take a while to load
 					//TODO add loading animation
+						
+					resp.setContentType("application/text");
+					//OutputStream output = resp.getOutputStream();
+					//output.write(binFile);
+					//output.close();
+					resp.getWriter().write(strData);	
 				}
 				//DO STUFF WITH FILE
 				

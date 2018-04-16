@@ -2,11 +2,14 @@
 package translatorapp;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.osgi.framework.BundleContext;
+
+
+
+import com.sun.xml.internal.messaging.saaj.util.Base64;
 
 import jp.co.kyoceramita.ksf.*;
 import jp.co.kyoceramita.util.*;
@@ -132,13 +135,13 @@ public class fileExplorer {
 		//from USB 0
 		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
 
-		String data = "";
-
+		byte[] buffer = new byte[819200];
+		String stringData = "";
 		try {
 			StorageFileInputStream is = file.getInputStream();
 			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			StringBuilder out = new StringBuilder();
+			/*BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			/StringBuilder out = new StringBuilder();
 			String line;
 			while ((line = reader.readLine()) != null){
 				out.append(line);
@@ -146,12 +149,20 @@ public class fileExplorer {
 			reader.close();
 			is.close();
 			data = out.toString();
-
+			 */	
+			InputStreamReader reader = new InputStreamReader(is);
+			is.read(buffer);
+			is.close();
+			StringBuilder str = new StringBuilder();
+			str.append("data:application/pdf;base64,");
+			String converted = Base64.encode(buffer).toString();
+			str.append(converted);
+			//stringData = str.append(Base64.encode(buffer)).toString();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block check sample prog. 3 catches there
 			e.printStackTrace();
 		}
-		return data;	
+		return stringData;	
 	}
 	
 	

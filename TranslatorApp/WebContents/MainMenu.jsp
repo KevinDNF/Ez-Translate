@@ -15,7 +15,6 @@
     <script src="js/lib/pdf.worker.js"></script>
 		<!-- Library PDF.JS -->
 
-    <script src="js/pdfViewer.js"></script>
   </head>
 
   <body onload="HyPAS.App.fullScreen(false);">
@@ -82,7 +81,7 @@
             	Hello
             </div>
 						-->
-						<canvas>
+						<canvas id="viewer">
 
 						</canvas>
             <form>
@@ -219,24 +218,41 @@
 			url = menuUrl + "?Action=SelectedFile&Path=" + path;
 			fetch(url)
 			.then((resp) =>{
-				resp.text().then((text) = >{
-					console.log("File Loaded")
+				resp.text().then((buf) => {
+					console.log("File Loaded");
 					//convert text to base64 encoded data
-					//atob?
-					displayPDF(text);	
-				}
+					console.log(buf);
+					cdata = convertData(buf);
+					displayPDF(cdata);	
+				})
 			})
 		}
 
 		function displayPDF(binData){
-
-			PDFJS.getDocument({data: binData})
+			data = binData;//convert?
+			pdfjsLib.getDocument({data: data})
 				.then((pdf)=>{
 					console.log(pdf.numPages);	
 					console.log("PDF LOADED");
 					//then we display it
 			});
 		}
+		
+		function convertData(data){
+			var BASE64_MARKER = ';base64,';
+		 	var base64Index = data.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+		  	var base64 = data.substring(base64Index);
+		  	var raw = window.atob(base64);
+		  	var rawLength = raw.length;
+		  	var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+		  	for(var i = 0; i < rawLength; i++) {
+				array[i] = raw.charCodeAt(i);
+		  	}
+		  	return array;
+		}
+		
+	
 	</script> 
 </body>
 </html>
