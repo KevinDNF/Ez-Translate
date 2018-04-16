@@ -31,6 +31,7 @@
                         <img src="img/USB.png" alt="USB" onclick="openFileExplorer('/')" >
                         <p>USB
                     </button>
+                    <!-- 
                     <button type="button" onclick="pickCloudService()">
                         <img src="img/CloudDown.png" alt="Cloud">
                         <p>Cloud
@@ -38,6 +39,11 @@
                     <button type="button">
                         <img src="img/Scan.png" alt="Scan">
                         <p>Scan
+                    </button>
+                    -->
+					<button type="button" onclick="translateDocument()">
+                        <img src="img/translate.png" alt="Translate">
+                        <p>Translate
                     </button>
                 </div>
             </form>
@@ -77,20 +83,21 @@
                 	 	Test
                     </a>
                     -->
-                    <button type="button" onclick="translateDocument()">
+					
+                    <button type="button" onclick="FileExplorer('/')">
                         <img src="img/USB.png" alt="USB">
-                        <p>Translate
+                        <p>USB
                     </button>
+                    <!--  
                     <button type="button" onclick="pickCloudService()">
                         <img src="img/CloudUP.png" alt="Cloud">
                         <p>Cloud
                     </button>
-                    
+                     --> 
                     <button type="button" onclick="printDocument()">
                          <img src="img/Print.png" alt="Print">
                          <p>Print
                     </button>           
-                    
                 </div>
             </form>
 
@@ -99,16 +106,20 @@
                     <h2>Settings</h2>
                 </div>
                 <div class="main">
+                	<!--
                     <button type="button" class="longButton">
                        Lock Settings 
                     </button>
+                    -->
                     <p>Accent Color:</p>
                     <button type="button" class="longButton" onclick="pickAColour()">
                     	Change color
                     </button>
+                    <!--
                     <button type="button" class="longButton" onclick="">
                        Set settings as default 
                     </button>           
+                    -->
                 </div>
             </form>
         </div>

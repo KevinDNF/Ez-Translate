@@ -13,7 +13,7 @@ function displayPath(){
 
 function printDocument(){
 	url = menuUrl + "?Action=Print";
-	fetch(url);
+	fetch(url)
 }
 
 function print(){
