@@ -16,7 +16,7 @@ function printDocument(){
 	fetch(url);
 }
 
-function printPDF(file){
+function print(){
 	
 }
 
