@@ -84,7 +84,7 @@
                     </a>
                     -->
 					
-                    <button type="button" onclick="FileExplorer('/')">
+                    <button type="button" onclick="openFileExplorer('/')">
                         <img src="img/USB.png" alt="USB">
                         <p>USB
                     </button>
