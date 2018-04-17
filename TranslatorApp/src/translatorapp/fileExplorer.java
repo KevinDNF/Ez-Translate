@@ -1,12 +1,8 @@
 //KevinDNF
 package translatorapp;
 
-
-<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.File;
-=======
->>>>>>> viewer
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -171,7 +167,7 @@ public class fileExplorer {
 		return stringData;	
 	}
 	
-	public File getFile(String path){
+	public File getFileToSave(String path){
 		//from USB 0
 		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
 

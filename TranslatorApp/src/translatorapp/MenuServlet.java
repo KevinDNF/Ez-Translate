@@ -70,16 +70,10 @@ public class MenuServlet extends HttpServlet {
 				System.out.println("Selected File: ");
 				System.out.println(selectedFilePath);
 				System.out.println("-------------------");
-				File selectedFile;
 				
-<<<<<<< HEAD
-				if (fe.getFileData(selectedFilePath).length() > 1){
-=======
 				//byte[] binFile = fe.getFile(selectedFile);
-				String strData = fe.getFile(selectedFile);
-							
+				String strData = fe.getFileData(selectedFilePath);
 				if (strData.length() > 1){
->>>>>>> viewer
 					System.out.println("File content Loaded");
 					System.out.println("Sending data back");
 					//don't print content or it will crash lul
@@ -92,14 +86,20 @@ public class MenuServlet extends HttpServlet {
 					//output.close();
 					resp.getWriter().write(strData);	
 				}
-				//DO STUFF WITH FILE
-				//selectedFile = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
-				selectedFile = fe.getFile(selectedFilePath);
-				InputStream stream = new FileInputStream(selectedFile);
-				Properties props = new Properties();
-				props.load(stream);
-				
+								
+        	}else if(param.equals("selectFileToSave")){
+				String selectedFilePath = req.getParameter("Path");
+				if (fe.getFileData(selectedFilePath).length() > 1){
+					//DO STUFF WITH FILE
+					//selectedFile = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
+					File selectedFile = fe.getFileToSave(selectedFilePath);
+					InputStream stream = new FileInputStream(selectedFile);
+					Properties props = new Properties();
+					props.load(stream);
+				}
+
         	}else if(param.equals("Scan")){
+        	
 				System.out.println("SCANNING");
 			
 			}else if(param.equals("Print")){
