@@ -5,6 +5,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link rel="stylesheet" href="css/style.css">
+        <!-- lib css-->
+    <link rel="stylesheet" href="js/lib/text_layer_builder.css">
     <title>Ez Translate</title>
     <script src="/ksf/js/hypas-api.js" language="JavaScript"></script>
     <script src="js/script.js"></script>
@@ -13,6 +15,7 @@
 		<!-- Library PDF.JS -->
     <script src="js/lib/pdf.js"></script>
     <script src="js/lib/pdf.worker.js"></script>
+    <script src="js/lib/text_layer_builder.js"></script>
 		<!-- Library PDF.JS -->
 
   </head>
@@ -215,7 +218,7 @@
 				canvas = document.getElementById("viewer"),
 				canvasCtx = canvas.getContext("2d");
 
-		//onPdfSelection
+        //onPdfSelection
 		function selectFile(path){
 			console.log("Loading...")
 			url = menuUrl + "?Action=SelectedFile&Path=" + path;
@@ -227,48 +230,67 @@
 					//convert text to base64 encoded data
 					arrayData = base64toUint8Array(buf);
 					console.log("Base64 -> Uint8Array: Success!");
-					displayPDF({data: arrayData});	
+                    //loadPDF({data: arrayData});	
+                    startViewer({data: arrayData});
 				})
 			})
 		}
 
-		function displayPDF(arrayData){
-			pdfjsLib.getDocument(arrayData)
-				.then((pdf)=>{
-					console.log("PDF LOADED");
-					totalPages = pdf.numPages;
-					console.log("Pages: " + totalPages);	
-					if (totalPages > 0){
-						console.log("PDF is good to go"); //TODO change to try catch
-						displayPage(pdf,1);
-					}else{
-						console.log("PDF is empty");
-					}
-					//then we display it
-			});
-		}
-		
-		
-		function displayPage(pdf,pageNum){
-			pdf.getPage(pageNum).then((page) =>{
-				var viewport = page.getViewport(0.5);	//number is zoom level
-				canvas.height = viewport.height;
-				canvas.width = viewport.width;
+        //------PDF VIEWER FUNCTIONALITY STARTS HERE----//
+        //This code block contains tall the functionality of the viewer
+        //I will have 2 pdf viewer. One in the background with the correct
+        //size pdf to ensure that the spacing is right and to modify it
+        //and second viewer which the user can interact with.
+        //The background viewer will be hidden and its where the translation occurs.
+        function startViewer(dataArray){
+            pdfjsLib.getDocument(arrayData)
+            .then((pdf) =>{
+                var container = document.getElementById("canvasContainer");
+                for (var i=1; i <= pdf.numPages; i++){
+                    pdf.getPage(i).then((page) => {
+                        var scale = 0.5;
+                        var viewport = page.getViewport(scale);
+                        var div = document.createElement("div");
+                        div.setAttribute("id","page-" + (page.pageIndex + 1));
+                        div.setAttribute("style", "position:relative");
+                        container.appendChild(div);
 
-				//render in canvas or svg
-				var renderCtx = {
-					canvasContext: canvasCtx,
-					viewport: viewport
-				}
-				page.render(renderCtx).then(function(){
-					console.log("render Success");	
-									})
-					
-				
-			})	
-		}
-		
-		
+                        var canvas = document.createElement("canvas");
+                        div.appendChild(canvas);
+                        var context = canvas.getContext("2d");
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        var renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+
+                        page.render(renderContext)
+                            .then(() => {
+                                return page.getTextContent();
+                            })
+                            .then((textCont) =>{
+                                var textLayerDiv = document.createElement("div");
+                                textLayerDiv.setAttribute("class", "textLayer");
+                                div.appendChild(textLayerDiv);
+
+                                var textLayer = new TextLayerBuilder({
+                                    textLayerDiv: textLayerDiv,
+                                    pageIndex: page.pageIndex,
+                                    viewport:viewport
+                                });
+
+                                textLayer.setTextContent(textCont);
+                                textLayer.render();
+                            })
+                    })
+                }
+        })
+        }
+        
+
+        //---------------------Utility functions------------------//
 		// base64 --> uint8Array
 		// we will have to invert this conversion to send the pdf back
 		// maybe move this function to a utility javascript file?
@@ -294,8 +316,50 @@
 		  	}
 		  	return array;
 		}
-		
-	
+        
+        //--------TEsting---
+		function loadTs(arrayData){
+			pdfjsLib.getDocument(arrayData)
+				.then((pdf)=>{
+					console.log("PDF LOADED");
+					totalPages = pdf.numPages;
+					console.log("Pages: " + totalPages);
+                    loadPages(pdf);
+			    });
+		}
+        
+        function loaadPages(pdf){
+            let promiseArray = [];
+            for (i=1;i<totalPages;i++){
+                promiseArray.push(pdf.getPage(i));
+            }
+            Promise.all(promiseArray).then((array) => {
+                console.log("Page Loaded: " + array.length);
+                //all pages loaded
+                renderPage(2,array,0.5); //pagenum array zoom
+                //next and prev function here
+                //event listener here I guess
+            })
+        }
+
+        function reanderPage(pageNum,array,scale){
+            page = array[pageNum];
+            var viewport = page.getViewport(scale);
+            canvas.height = viewport.height;
+		    canvas.width = viewport.width;
+
+			//render in canvas or svg
+			var renderCtx = {
+				canvasContext: canvasCtx,
+				viewport: viewport
+			}
+			page.render(renderCtx).then(function(){
+				console.log("render Success");
+			})
+        }
+
+        //-----TESTING
+
 	</script> 
 </body>
 </html>
