@@ -94,7 +94,7 @@
                         <p>Cloud
                     </button>
                      --> 
-                    <button type="button" onclick="printDocument()">
+                    <button type="button" onclick="printDocumentOptions()">
                          <img src="img/Print.png" alt="Print">
                          <p>Print
                     </button>           
