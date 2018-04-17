@@ -85,9 +85,6 @@
             </div>
 						-->
 					<div id="canvasContainer">
-						<canvas id="viewer">
-
-						</canvas>
 					</div>
             <form>
                 <div class="header">
@@ -211,13 +208,6 @@
 	avoid havin to deal with the importing and all that jazz -->
 
 	<script>
-		var pdf, 
-				currentPage, 
-				totalPages, 
-				pageRendering = 0, 
-				canvas = document.getElementById("viewer"),
-				canvasCtx = canvas.getContext("2d");
-
         //onPdfSelection
 		function selectFile(path){
 			console.log("Loading...")
@@ -238,10 +228,8 @@
 
         //------PDF VIEWER FUNCTIONALITY STARTS HERE----//
         //This code block contains tall the functionality of the viewer
-        //I will have 2 pdf viewer. One in the background with the correct
-        //size pdf to ensure that the spacing is right and to modify it
-        //and second viewer which the user can interact with.
-        //The background viewer will be hidden and its where the translation occurs.
+        //Viewport will first be set to 1 so ensure the quality of the pdf
+        //is good then ill extract the text with its position and scale.
         function startViewer(dataArray){
             pdfjsLib.getDocument(arrayData)
             .then((pdf) =>{
@@ -317,49 +305,6 @@
 		  	return array;
 		}
         
-        //--------TEsting---
-		function loadTs(arrayData){
-			pdfjsLib.getDocument(arrayData)
-				.then((pdf)=>{
-					console.log("PDF LOADED");
-					totalPages = pdf.numPages;
-					console.log("Pages: " + totalPages);
-                    loadPages(pdf);
-			    });
-		}
-        
-        function loaadPages(pdf){
-            let promiseArray = [];
-            for (i=1;i<totalPages;i++){
-                promiseArray.push(pdf.getPage(i));
-            }
-            Promise.all(promiseArray).then((array) => {
-                console.log("Page Loaded: " + array.length);
-                //all pages loaded
-                renderPage(2,array,0.5); //pagenum array zoom
-                //next and prev function here
-                //event listener here I guess
-            })
-        }
-
-        function reanderPage(pageNum,array,scale){
-            page = array[pageNum];
-            var viewport = page.getViewport(scale);
-            canvas.height = viewport.height;
-		    canvas.width = viewport.width;
-
-			//render in canvas or svg
-			var renderCtx = {
-				canvasContext: canvasCtx,
-				viewport: viewport
-			}
-			page.render(renderCtx).then(function(){
-				console.log("render Success");
-			})
-        }
-
-        //-----TESTING
-
 	</script> 
 </body>
 </html>
