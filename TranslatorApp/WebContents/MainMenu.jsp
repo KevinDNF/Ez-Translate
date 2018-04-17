@@ -202,56 +202,67 @@
         </div>
     </div>
 <!--- viewer scripts
-	I have done them in the same file as the html to 
+	I have done them in the same file as the jsp to 
 	avoid havin to deal with the importing and all that jazz -->
 
 	<script>
 		var pdf, 
 				currentPage, 
-				totalPage, 
+				totalPages, 
 				pageRendering = 0, 
 				canvas = document.getElementById("viewer"),
 				canvas = canvas.getContext("2d");
 
+		//onPdfSelection
 		function selectFile(path){
 			console.log("Loading...")
 			url = menuUrl + "?Action=SelectedFile&Path=" + path;
 			fetch(url)
 			.then((resp) =>{
 				resp.text().then((buf) => {
+					//resp.text() is a Base64 encoded pdf
 					console.log("Buffer Received");
 					//convert text to base64 encoded data
-					buf = buf.replace(/-/g,"+");
-					buf = buf.replace(/_/g,"/");
-					//console.log(buf);
-					dd = convertData(buf);
-					//console.log(dd);
-					console.log("File Loaded");
-					//cdata = convertData(buf);
-					
-					displayPDF({data: dd});	
+					arrayData = base64toUint8Array(buf);
+					console.log("Base64 -> Uint8Array: Success!");
+					displayPDF({data: arrayData});	
 				})
 			})
 		}
 
-		function displayPDF(binData){
-			data = binData;//convert?
-			pdfjsLib.getDocument(data)
+		function displayPDF(arrayData){
+			pdfjsLib.getDocument(arrayData)
 				.then((pdf)=>{
 					console.log("PDF LOADED");
-					console.log(pdf.numPages);	
+					totalPages = pdf.numPages;
+					console.log("Pages: " + totalPages);	
+					if (totalPages > 0){
+						console.log("PDF is good to go"); //TODO change to try catch
+					}else{
+						console.log("PDF is empty");
+					}
 					//then we display it
 			});
 		}
 		
-		function convertData(data){
+		// base64 --> uint8Array
+		// we will have to invert this conversion to send the pdf back
+		// maybe move this function to a utility javascript file?
+		function base64toUint8Array(data){
+			// Remove "safe for web" characters
+			data = data.replace(/-/g,"+");
+			data = data.replace(/_/g,"/");
+
+			//Base64 --> string
 			var BASE64_MARKER = ';base64,';
 		 	var base64Index = data.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
 		  	var base64 = data.substring(base64Index);
 		  	var raw = window.atob(base64);
+		  	//raw pdf data.
 		  	var rawLength = raw.length;
+		  	//String --> Uint8Array
 		  	var array = new Uint8Array(new ArrayBuffer(rawLength));
-		  	console.log(raw.length);
+		  	console.log("Raw Buffer length:" + raw.length);
 
 		  	for(var i = 0; i < rawLength; i++) {
 				array[i] = raw.charCodeAt(i);
@@ -259,15 +270,6 @@
 		  	}
 		  	return array;
 		}
-		
-		function base64ToUint8Array(base64) {
-		    var raw = atob(base64);
-		    var uint8Array = new Uint8Array(raw.length);
-		    for (var i = 0; i < raw.length; i++) {
-		      uint8Array[i] = raw.charCodeAt(i);
-		    }
-		    return uint8Array;
-		  }
 		
 	
 	</script> 

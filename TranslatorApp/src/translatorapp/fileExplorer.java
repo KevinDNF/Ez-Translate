@@ -141,27 +141,16 @@ public class fileExplorer {
 		byte[] buffer = new byte[81920001];
 		String stringData = "";
 		try {
-			StorageFileInputStream is = file.getInputStream();
+			StorageFileInputStream reader = file.getInputStream();
 			
-			/*BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			/StringBuilder out = new StringBuilder();
-			String line;
-			while ((line = reader.readLine()) != null){
-				out.append(line);
-			}
+			reader.read(buffer);//TODO break big pdf files to multiple buffers
 			reader.close();
-			is.close();
-			data = out.toString();
-			 */	
-			InputStreamReader reader = new InputStreamReader(is);
-			is.read(buffer);
-			is.close();
+
 			StringBuilder str = new StringBuilder();
 			str.append("data:application/pdf;base64,");
 			String converted = Base64.encodeBase64URLSafeString(buffer).toString();
 			str.append(converted);
 			stringData = str.toString();
-			//stringData = str.append(Base64.encode(buffer)).toString();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block check sample prog. 3 catches there
 			e.printStackTrace();
