@@ -87,13 +87,13 @@ form{
 }
 form .header{
     background-color:rgb(223,55,55);
-        box-shadow:inset 0px 0 20px 6px rgba(76,6,6,0.18);
+    box-shadow:inset 0px 0 20px 6px rgba(76,6,6,0.18);
 }
 form .main{
     display:flex;
     justify-content:space-between;
-    padding:8px;
     flex-wrap:wrap;
+    padding:8px;    
 }
 form button img, .longButton{
     background-color:rgb(59,59,59);
@@ -160,7 +160,13 @@ form .main img{
     margin:13% auto auto auto;
     width:422px;
     padding-bottom:10px;
-    /* height:232px; */
+    height:232px;
+    flex: 1;
+    overflow: auto;
+}
+#overlay form .main .box{
+	min-height: 100%;
+  	display: flex;
 }
 #overlay .main{
     justify-content:space-evenly;

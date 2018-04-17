@@ -1,6 +1,7 @@
 package translatorapp;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -20,6 +22,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
 import jp.co.kyoceramita.app.AppContext;
+import jp.co.kyoceramita.storage.StorageFile;
+import jp.co.kyoceramita.storage.StorageType;
 import jp.co.kyoceramita.user.attribute.DomainName;
 
 public class MenuServlet extends HttpServlet {
@@ -61,19 +65,25 @@ public class MenuServlet extends HttpServlet {
 			    resp.getWriter().write(fe.getHTML());	
 			    
 			}else if (param.equals("SelectedFile")){
-				String selectedFile = req.getParameter("Path");
+				String selectedFilePath = req.getParameter("Path");
 				System.out.println("-------------------");
 				System.out.println("Selected File: ");
-				System.out.println(selectedFile);
+				System.out.println(selectedFilePath);
 				System.out.println("-------------------");
+				File selectedFile;
 				
-				if (fe.getFile(selectedFile).length() > 1){
+				if (fe.getFileData(selectedFilePath).length() > 1){
 					System.out.println("File content Loaded");
 					//don't print content or it will crash lul
 					//Loading files take a while to load
 					//TODO add loading animation
 				}
 				//DO STUFF WITH FILE
+				//selectedFile = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
+				selectedFile = fe.getFile(selectedFilePath);
+				InputStream stream = new FileInputStream(selectedFile);
+				Properties props = new Properties();
+				props.load(stream);
 				
         	}else if(param.equals("Scan")){
 				System.out.println("SCANNING");
@@ -81,15 +91,11 @@ public class MenuServlet extends HttpServlet {
 			}else if(param.equals("Print")){
 				System.out.println("PRINTING");
 				
-				userBox ub = new userBox();
-				
-				/*
 				PrinterJob pj = new PrinterJob(bc);
 
 				pj.createJobAttributeSet();
 				pj.createJob();
-				pj.start();
-				*/
+				System.out.println(pj.start() + " says PrinterJob.start()");
 			}
 			
 			

@@ -187,7 +187,25 @@
             
 			<form id="fileExplorer">
 
-			</form> 
+			</form>
+			
+			<form id="printingOptions">
+                <div class="header">
+                    <h2>Print options</h2>
+                    <button type="button" class="close" onclick="exitOverlay()">
+                        close
+                    </button>
+                </div>
+                <div class="main">
+<!--                 	<select name="colormode"> -->
+<!--                 		<option>AUTO</option> -->
+<!--                 		<option>GRAY</option> -->
+<!--                 		<option>B&W</option> -->
+<!--                 		<option>FILE PROPERTY</option> -->
+<!--                 	</select> -->
+				</div> 
+            </form>
+			
         </div>
     </div>
 </body>

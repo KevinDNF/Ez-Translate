@@ -3,6 +3,7 @@ package translatorapp;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -78,34 +79,41 @@ public class fileExplorer {
 	}
 	
 	private void appendHTML(StorageFile[] files){
-		for (int i = 0 ; i< files.length; i++){
-				String sPath = "'"+ files[i].getPath()  +"'";
-			    sPath = sPath.replace("\\", "/"); 
-			if (files[i].isDirectory()){
-				if (files[i].listFiles().length <= 0){
-					HTML += " <button type=\"button\" class=\"button\" onclick=\"openFileExplorer("+ sPath+ ")\">";
-					HTML += " <img src='img/emptyFolder.png'>";
-					HTML += " <p>"+ files[i].getName() + "</p>";
-					HTML += " </button>";		
-				}else{
-					HTML += " <button type=\"button\" class=\"button\" onclick=\"openFileExplorer("+ sPath+ ")\">";
-					HTML += " <img src='img/folder.png'>";
-					HTML += " <p>"+ files[i].getName() + "</p>";
-					HTML += " </button>";	
-				}
-					
-			}else if (files[i].isFile()){
-				String fName = files[i].getName();
-				String fFormat = fName.substring(fName.lastIndexOf(".")+1);
-				if (fFormat.equals("pdf")){ //Only PDF files
-					HTML += " <button type=\"button\" class=\"button\" onclick=\"selectFile("+ sPath  + ")\">";
-					HTML += " <img src='img/pdf.png'>";
-					HTML += " <p>"+ fName + "</p>";
-					HTML += " <p>"+ fFormat + "</p>";
-					HTML += " </button>";
+		// If the path is empty
+		if (files.length <= 0){
+			HTML += " <img src='img/noFile.png'>";
+			HTML += " <p style=\"text-align: center\">No documents to display.</p>";
+		} else {
+			for (int i = 0 ; i< files.length; i++){
+					String sPath = "'"+ files[i].getPath()  +"'";
+				    sPath = sPath.replace("\\", "/"); 
+				// If its a directory and its not ".temp" - that has to be invisible
+				if (files[i].isDirectory() && !files[i].getName().equals(".temp")){
+					if (files[i].listFiles().length <= 0){
+						HTML += " <button type=\"button\" class=\"button\" onclick=\"openFileExplorer("+ sPath+ ")\">";
+						HTML += " <img src='img/emptyFolder.png'>";
+						HTML += " <p>"+ files[i].getName() + "</p>";
+						HTML += " </button>";		
+					}else{
+						HTML += " <button type=\"button\" class=\"button\" onclick=\"openFileExplorer("+ sPath+ ")\">";
+						HTML += " <img src='img/folder.png'>";
+						HTML += " <p>"+ files[i].getName() + "</p>";
+						HTML += " </button>";	
+					}
+				// If its a file and it has a pdf format
+				}else if (files[i].isFile()){
+					String fName = files[i].getName();
+					String fFormat = fName.substring(fName.lastIndexOf("."));
+					if (fFormat.equals(".pdf")){ //Only PDF files
+						HTML += " <button type=\"button\" class=\"button\" onclick=\"selectFile("+ sPath  + ")\">";
+						HTML += " <img src='img/pdf.png'>";
+						HTML += " <p>"+ fName.substring(0, fName.lastIndexOf(".")) + "</p>";
+						HTML += " </button>";
+					}
 				}
 			}
 		}
+		HTML += " </div>";
 		HTML += " </div>";
 	}
 	
@@ -121,6 +129,7 @@ public class fileExplorer {
 		HTML += " </button>";
 		HTML += " </div>";
 		HTML += " <div class='main'>";
+		HTML += " <div class='box'>";
 	
 	}
 	
@@ -128,7 +137,7 @@ public class fileExplorer {
 		return HTML;
 	}
 	
-	public String getFile(String path){
+	public String getFileData(String path){
 		//from USB 0
 		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
 
@@ -154,5 +163,11 @@ public class fileExplorer {
 		return data;	
 	}
 	
+	public File getFile(String path){
+		//from USB 0
+		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
+
+		return (File) file;	
+	}
 	
 }

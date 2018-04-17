@@ -8,25 +8,42 @@ import org.osgi.framework.FrameworkUtil;
 import jp.co.kyoceramita.app.AppContext;
 import jp.co.kyoceramita.app.attribute.TargetApp;
 import jp.co.kyoceramita.attribute.InvalidAttributeException;
+import jp.co.kyoceramita.box.document.attribute.TargetRemovableMemoryFile;
 import jp.co.kyoceramita.box.document.attribute.TargetRemovableMemoryFolder;
 import jp.co.kyoceramita.job.Job;
 import jp.co.kyoceramita.job.JobException;
 import jp.co.kyoceramita.job.JobService;
 import jp.co.kyoceramita.job.JobType;
 import jp.co.kyoceramita.job.attribute.AppToPrintJobCreationAttributeSet;
+import jp.co.kyoceramita.job.attribute.JobAttributeEvent;
 import jp.co.kyoceramita.job.attribute.JobAttributeEventListener;
+import jp.co.kyoceramita.job.attribute.JobAttributeEventType;
 import jp.co.kyoceramita.job.attribute.JobCreationAttributeSet;
+import jp.co.kyoceramita.job.attribute.JobID;
+import jp.co.kyoceramita.job.attribute.MediaSizeName;
+import jp.co.kyoceramita.job.attribute.Message;
+import jp.co.kyoceramita.job.attribute.MessageID;
+import jp.co.kyoceramita.job.attribute.Orientation;
 import jp.co.kyoceramita.job.attribute.RemovableMemoryToPrintJobAttributeSet;
 import jp.co.kyoceramita.job.attribute.RemovableMemoryToPrintJobCreationAttributeSet;
+import jp.co.kyoceramita.job.event.JobEvent;
 import jp.co.kyoceramita.job.event.JobEventListener;
+import jp.co.kyoceramita.job.event.JobEventType;
+import jp.co.kyoceramita.message.screen.BrowserMessageSender;
 import jp.co.kyoceramita.print.attribute.ColorMode;
+import jp.co.kyoceramita.print.attribute.Copies;
+import jp.co.kyoceramita.print.attribute.DeleteAfterPrinted;
+import jp.co.kyoceramita.print.attribute.Duplex;
+import jp.co.kyoceramita.print.attribute.Ecoprint;
+import jp.co.kyoceramita.print.attribute.MPTraySetting;
+import jp.co.kyoceramita.print.attribute.PaperSelection;
 import jp.co.kyoceramita.storage.StorageManager;
 import jp.co.kyoceramita.storage.StorageType;
 import jp.co.kyoceramita.util.KSFUtility;
 
 public class PrinterJob {
 
-    private AppToPrintJobCreationAttributeSet att_set = null;
+    private RemovableMemoryToPrintJobCreationAttributeSet att_set = null;
 	private Job m_job = null;
 //---
 	private static int jobStatus;
@@ -46,57 +63,65 @@ public class PrinterJob {
 	//Sets the attributes for the printer job
 	public void createJobAttributeSet() {
 
-		att_set = (AppToPrintJobCreationAttributeSet) JobCreationAttributeSet.newInstance(JobType.APP_TO_PRINT);
+		att_set = (RemovableMemoryToPrintJobCreationAttributeSet) JobCreationAttributeSet.newInstance(JobType.REMOVABLE_MEMORY_TO_PRINT);
 		
-		System.out.println("PrinterJob");
+		System.out.println("PrinterJob creating attribute set");
 
 		
 		
 	 try {
-		 	    att_set.set(new TargetApp(appCtx, "/temp.pdf", StorageType.USB_MEMORY));
+		 	    att_set.set(new TargetRemovableMemoryFolder(".temp"));
+		 	    
+		 	    att_set.set(new TargetRemovableMemoryFile(".temppdf.pdf"));
          	
          		if (att_set.containsCategory(ColorMode.class)) { 
          		System.out.println("Setting color...");
          		att_set.set(ColorMode.AUTO_COLOR);
-         		} 
-         		// The resolution is set
-         		/*if (att_set.containsCategory(ScanResolution.class)) { 
-         		att_set.set(ScanResolution.TYPE_300x300); } 
-         		// The color setting of the manuscript reading is set full-color. 
-         		if (att_set.containsCategory(ScanColorMode.class)) {
-         		att_set.set(ScanColorMode.FULL_COLOR); } // The paper size is set to A4. 
-         		if (att_set.containsCategory(StoringSize.class)) { 
-         		att_set.set(StoringSize.A4); } // The document name is set (The date is added behind the file name). 
-         		if (att_set.containsCategory(FileName.class)) { 
-         		att_set.set(new FileName("sample", SuffixType.DATE)); } // The file format is set to PDF. 
-         		if (att_set.containsCategory(ScanOrgImageType.class)){
-         			att_set.set(ScanOrgImageType.OCR);
          		}
          		
-         		if (att_set.containsCategory(PDFFileFormat.class)) { 
-    				FileImageQuality IQ = FileImageQuality.PDF_IMAGE_QUALITY_1;	
-    				
-    				PDFFileFormat pdff = new PDFFileFormat(
-    					PDFCompatibility.UNAVAILABLE,
-    					IQ, new PDFPermission(
-    					PDFEditAllowLevel.ANY_EXCEPT_EXTRACTING_PAGES,
-    					PDFPrintAllowLevel.ALLOWED, true));
-    				    att_set.set(pdff);
-         		} 
-         		att_set.set(ContinuousScan.ON);*/
+         		if (att_set.containsCategory(Copies.class)) { 
+             		System.out.println("Setting copies...");
+             		att_set.set(new Copies(1));
+             	}
+         		
+         		if (att_set.containsCategory(DeleteAfterPrinted.class)) { 
+             		System.out.println("Setting deleteAfterPrinted...");
+             		att_set.set(DeleteAfterPrinted.OFF);
+             	}
+         		
+         		if (att_set.containsCategory(Duplex.class)) { 
+             		System.out.println("Setting duplex...");
+             		att_set.set(Duplex.ONE_SIDED);
+             	}
+         		
+         		if (att_set.containsCategory(Ecoprint.class)) { 
+             		System.out.println("Setting ecoprint...");
+             		att_set.set(Ecoprint.OFF);
+             	}
+         		
+         		if (att_set.containsCategory(MPTraySetting.class)) { 
+             		System.out.println("Setting mpTraySetting...");
+             		att_set.set(new MPTraySetting(MediaSizeName.ISO_A4, Orientation.E, false));
+             	}
+         		
+         		if (att_set.containsCategory(PaperSelection.class)) { 
+             		System.out.println("Setting paperSelection...");
+             		att_set.set(PaperSelection.AUTO);
+             	}
         	
         } 
        catch (InvalidAttributeException e) { // handle exceptions. 
         	
         }
 
-		/*JobAttributeEventListener jaev = createJobAttributeEventListener();
+		JobAttributeEventListener jaev = createJobAttributeEventListener();
 
 		if (jaev == null) {
 			System.out.println("Could not create JobAttributeEventListener!");
 		}
 
-		att_set.addListener(jaev);*/
+		System.out.println("adding JobAttributeEventListener to jobAttributes.");
+		att_set.addListener(jaev);
 
 	}
 	
@@ -111,13 +136,7 @@ public class PrinterJob {
 		}
 
 		// DONE use ScanJobEventListener to get END ( continuous scan case )
-		/*ScanJobEventListener sjev = createScanJobEventListener();
-		if (sjev == null) {
-			System.out.println("Could not create ScanJobEventListener!");
-		}
-
-		System.out.println("adding ScanJobEventListener to job.");
-		m_job.addListener(sjev);
+		
 
 		JobEventListener jev = createJobEventListener();
 		if (jev == null) {
@@ -125,7 +144,8 @@ public class PrinterJob {
 		}
 
 		System.out.println("adding JobEventListener to job.");
-		m_job.addListener(jev);*/
+		m_job.addListener(jev);
+		System.out.println("JobEventListener created.");
 
 	}
 	
@@ -136,6 +156,13 @@ public class PrinterJob {
 		try {
 			System.out.println("start called");
 			m_job.start();
+			try {
+				System.out.println("Now it should be printing from folder: " + m_job.getJobAttributes().get(TargetRemovableMemoryFolder.class));
+				System.out.println("Now it should be printing file: " + m_job.getJobAttributes().get(TargetRemovableMemoryFile.class));
+			} catch (InvalidAttributeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			bRet = true;
 		} catch (JobException e) {
 			System.out.println("start failed.");
@@ -145,24 +172,7 @@ public class PrinterJob {
 		return bRet;
 	}
 
-	/*public boolean continuous() {
-		
-		boolean bRet = false;
-		
-		try {
-			System.out.println("contionous called");
-			m_job.continuousScan();
-			System.out.println("contionous started");
-			bRet =  true;
-		} catch (JobException e) {
-			System.out.println("start failed.");
-			bRet =  false;
-		}
-		
-		return bRet;
-	}
-
-	public boolean end() {
+	/*public boolean end() {
 		
 		boolean bRet = false;
 		try {
@@ -178,7 +188,7 @@ public class PrinterJob {
 		}
 		
 		return bRet;
-	}
+	}*/
 
 	private JobAttributeEventListener createJobAttributeEventListener() {
 
@@ -275,43 +285,6 @@ public class PrinterJob {
 
 	}
 
-	private ScanJobEventListener createScanJobEventListener() {
-
-		System.out.println("creating ScanJobEventListener..");
-		ScanJobEventListener listener = new ScanJobEventListener() {
-
-			public void statusChanged(ScanJobEvent event) {
-				System.out.println("ScanJobEventListener says : statusChanged(.)");
-
-				ScanJobEventType type = (ScanJobEventType) event.getType();
-
-				if (type.equals(ScanJobEventType.START)) {
-					JobID jID = event.getJobID();
-					
-							System.out.println("ScanJobEventListener says JobEvent: START  jobID = "
-									+ jID.getValue());
-
-					jobStatus = 1;
-				}
-
-				// Manuscript for platen or ADF scanned
-				else if (type.equals(ScanJobEventType.END)) {
-					JobID jID = event.getJobID();
-					
-							System.out.println("ScanJobEventListener says JobEvent: END   jobID = "
-									+ jID.getValue());
-					jobStatus = 0;
-					
-					// For continuous scan , do not delete job attributes
-					// event.getJobID();
-				}
-			} // statusChanged
-		};
-
-		return listener;
-
-	}
-
 	private void dumpMessages(JobCreationAttributeSet jcas) {
 		Message[] msg = jcas.getMainMessages();
 		System.out.println("JobCreationAttributeSet has : " + msg.length
@@ -341,7 +314,7 @@ public class PrinterJob {
 		int eventNo = iEvent;
 		BrowserMessageSender ms = BrowserMessageSender.getInstance();
 		//ms.send(HyPASActivator.getAppContext(), eventNo);
-	}*/
+	}
 
 }
 

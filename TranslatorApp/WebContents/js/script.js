@@ -6,9 +6,13 @@ function loginToCloud(){
     document.getElementById("pickCloud").classList.remove("show");
     document.getElementById("login").classList.add("show");
 }
+function printDocumentOptions(){
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("printingOptions").classList.add("show");
+}
 function printDocument(){
 	url = menuUrl + "?Action=Print";
-	fetch(url)
+	fetch(url);
 }
 function exitOverlay(){
     overlay = document.getElementById("overlay");
