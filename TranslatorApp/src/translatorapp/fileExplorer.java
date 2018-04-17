@@ -2,12 +2,22 @@
 package translatorapp;
 
 
+<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.File;
+=======
+>>>>>>> viewer
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.xml.bind.DatatypeConverter;
+
+import org.apache.commons.codec.binary.Base64;
 import org.osgi.framework.BundleContext;
+
+
+
+
 
 import jp.co.kyoceramita.ksf.*;
 import jp.co.kyoceramita.util.*;
@@ -141,26 +151,24 @@ public class fileExplorer {
 		//from USB 0
 		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
 
-		String data = "";
-
+		byte[] buffer = new byte[81920001];
+		String stringData = "";
 		try {
-			StorageFileInputStream is = file.getInputStream();
+			StorageFileInputStream reader = file.getInputStream();
 			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			StringBuilder out = new StringBuilder();
-			String line;
-			while ((line = reader.readLine()) != null){
-				out.append(line);
-			}
+			reader.read(buffer);//TODO break big pdf files to multiple buffers
 			reader.close();
-			is.close();
-			data = out.toString();
 
+			StringBuilder str = new StringBuilder();
+			str.append("data:application/pdf;base64,");
+			String converted = Base64.encodeBase64URLSafeString(buffer).toString();
+			str.append(converted);
+			stringData = str.toString();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block check sample prog. 3 catches there
 			e.printStackTrace();
 		}
-		return data;	
+		return stringData;	
 	}
 	
 	public File getFile(String path){

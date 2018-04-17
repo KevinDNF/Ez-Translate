@@ -5,10 +5,19 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link rel="stylesheet" href="css/style.css">
+        <!-- lib css-->
+    <link rel="stylesheet" href="js/lib/text_layer_builder.css">
     <title>Ez Translate</title>
     <script src="/ksf/js/hypas-api.js" language="JavaScript"></script>
     <script src="js/script.js"></script>
     <script src="js/translate.js"></script>
+
+		<!-- Library PDF.JS -->
+    <script src="js/lib/pdf.js"></script>
+    <script src="js/lib/pdf.worker.js"></script>
+    <script src="js/lib/text_layer_builder.js"></script>
+		<!-- Library PDF.JS -->
+
   </head>
 
   <body onload="HyPAS.App.fullScreen(false);">
@@ -66,13 +75,17 @@
                     </button>
                 </div>
             </form>
-
+						
+						<!--
             <iframe id="frame" src="js/lib/pdfjs/web/viewer.jsp?file=%2FTranslatorApp/tempPDFs/temp.pdf">
                Something went wrong... 
             </iframe>
             <div id="edited">
             	Hello
             </div>
+						-->
+					<div id="canvasContainer">
+					</div>
             <form>
                 <div class="header">
                     <h2>Save To</h2>
@@ -208,5 +221,108 @@
 			
         </div>
     </div>
+<!--- viewer scripts
+	I have done them in the same file as the jsp to 
+	avoid havin to deal with the importing and all that jazz -->
+
+	<script>
+        //onPdfSelection
+		function selectFile(path){
+			console.log("Loading...")
+			url = menuUrl + "?Action=SelectedFile&Path=" + path;
+			fetch(url)
+			.then((resp) =>{
+				resp.text().then((buf) => {
+					//resp.text() is a Base64 encoded pdf
+					console.log("Buffer Received");
+					//convert text to base64 encoded data
+					arrayData = base64toUint8Array(buf);
+					console.log("Base64 -> Uint8Array: Success!");
+                    //loadPDF({data: arrayData});	
+                    startViewer({data: arrayData});
+				})
+			})
+		}
+
+        //------PDF VIEWER FUNCTIONALITY STARTS HERE----//
+        //This code block contains tall the functionality of the viewer
+        //Viewport will first be set to 1 so ensure the quality of the pdf
+        //is good then ill extract the text with its position and scale.
+        function startViewer(dataArray){
+            pdfjsLib.getDocument(arrayData)
+            .then((pdf) =>{
+                var container = document.getElementById("canvasContainer");
+                for (var i=1; i <= pdf.numPages; i++){
+                    pdf.getPage(i).then((page) => {
+                        var scale = 0.5;
+                        var viewport = page.getViewport(scale);
+                        var div = document.createElement("div");
+                        div.setAttribute("id","page-" + (page.pageIndex + 1));
+                        div.setAttribute("style", "position:relative");
+                        container.appendChild(div);
+
+                        var canvas = document.createElement("canvas");
+                        div.appendChild(canvas);
+                        var context = canvas.getContext("2d");
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        var renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+
+                        page.render(renderContext)
+                            .then(() => {
+                                return page.getTextContent();
+                            })
+                            .then((textCont) =>{
+                                var textLayerDiv = document.createElement("div");
+                                textLayerDiv.setAttribute("class", "textLayer");
+                                div.appendChild(textLayerDiv);
+
+                                var textLayer = new TextLayerBuilder({
+                                    textLayerDiv: textLayerDiv,
+                                    pageIndex: page.pageIndex,
+                                    viewport:viewport
+                                });
+
+                                textLayer.setTextContent(textCont);
+                                textLayer.render();
+                            })
+                    })
+                }
+        })
+        }
+        
+
+        //---------------------Utility functions------------------//
+		// base64 --> uint8Array
+		// we will have to invert this conversion to send the pdf back
+		// maybe move this function to a utility javascript file?
+		function base64toUint8Array(data){
+			// Remove "safe for web" characters
+			data = data.replace(/-/g,"+");
+			data = data.replace(/_/g,"/");
+
+			//Base64 --> string
+			var BASE64_MARKER = ';base64,';
+		 	var base64Index = data.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+		  	var base64 = data.substring(base64Index);
+		  	var raw = window.atob(base64);
+		  	//raw pdf data.
+		  	var rawLength = raw.length;
+		  	//String --> Uint8Array
+		  	var array = new Uint8Array(new ArrayBuffer(rawLength));
+		  	console.log("Raw Buffer length:" + raw.length);
+
+		  	for(var i = 0; i < rawLength; i++) {
+				array[i] = raw.charCodeAt(i);
+				  //console.out(raw.charCodeAt(i));
+		  	}
+		  	return array;
+		}
+        
+	</script> 
 </body>
 </html>

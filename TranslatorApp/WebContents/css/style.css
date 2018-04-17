@@ -198,7 +198,7 @@ iframe{
 	border-style:solid;	
 	margin:15px;
 }
-#edited{
+#edited, #canvasContainer{
 	height:100%;
 	border-style:solid;
 	width:327px;
@@ -214,4 +214,9 @@ iframe{
 	position:relative;
 	white-space:pre;
 	transform-origin:0% 0%;
+}
+#canvasContainer{
+	overflow:hidden;
+}
+#viewer{
 }
