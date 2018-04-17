@@ -5,8 +5,11 @@ package translatorapp;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.commons.codec.binary.Base64;
 import org.osgi.framework.BundleContext;
+
 
 
 
@@ -135,7 +138,7 @@ public class fileExplorer {
 		//from USB 0
 		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
 
-		byte[] buffer = new byte[819200];
+		byte[] buffer = new byte[81920001];
 		String stringData = "";
 		try {
 			StorageFileInputStream is = file.getInputStream();

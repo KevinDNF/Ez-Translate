@@ -223,7 +223,7 @@
 					//convert text to base64 encoded data
 					buf = buf.replace(/-/g,"+");
 					buf = buf.replace(/_/g,"/");
-					console.log(buf);
+					//console.log(buf);
 					dd = convertData(buf);
 					//console.log(dd);
 					console.log("File Loaded");
@@ -238,8 +238,8 @@
 			data = binData;//convert?
 			pdfjsLib.getDocument(data)
 				.then((pdf)=>{
-					console.log(pdf.numPages);	
 					console.log("PDF LOADED");
+					console.log(pdf.numPages);	
 					//then we display it
 			});
 		}
@@ -251,9 +251,11 @@
 		  	var raw = window.atob(base64);
 		  	var rawLength = raw.length;
 		  	var array = new Uint8Array(new ArrayBuffer(rawLength));
+		  	console.log(raw.length);
 
 		  	for(var i = 0; i < rawLength; i++) {
 				array[i] = raw.charCodeAt(i);
+				  //console.out(raw.charCodeAt(i));
 		  	}
 		  	return array;
 		}
