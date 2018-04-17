@@ -81,9 +81,11 @@
             	Hello
             </div>
 						-->
+					<div id="canvasContainer">
 						<canvas id="viewer">
 
 						</canvas>
+					</div>
             <form>
                 <div class="header">
                     <h2>Save To</h2>
@@ -211,7 +213,7 @@
 				totalPages, 
 				pageRendering = 0, 
 				canvas = document.getElementById("viewer"),
-				canvas = canvas.getContext("2d");
+				canvasCtx = canvas.getContext("2d");
 
 		//onPdfSelection
 		function selectFile(path){
@@ -238,12 +240,34 @@
 					console.log("Pages: " + totalPages);	
 					if (totalPages > 0){
 						console.log("PDF is good to go"); //TODO change to try catch
+						displayPage(pdf,1);
 					}else{
 						console.log("PDF is empty");
 					}
 					//then we display it
 			});
 		}
+		
+		
+		function displayPage(pdf,pageNum){
+			pdf.getPage(pageNum).then((page) =>{
+				var viewport = page.getViewport(0.5);	//number is zoom level
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+
+				//render in canvas or svg
+				var renderCtx = {
+					canvasContext: canvasCtx,
+					viewport: viewport
+				}
+				page.render(renderCtx).then(function(){
+					console.log("render Success");	
+									})
+					
+				
+			})	
+		}
+		
 		
 		// base64 --> uint8Array
 		// we will have to invert this conversion to send the pdf back
