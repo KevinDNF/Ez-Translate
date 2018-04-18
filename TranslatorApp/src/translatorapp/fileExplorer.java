@@ -15,6 +15,7 @@ import org.osgi.framework.BundleContext;
 
 
 
+
 import jp.co.kyoceramita.ksf.*;
 import jp.co.kyoceramita.util.*;
 import jp.co.kyoceramita.app.*;
@@ -172,6 +173,12 @@ public class fileExplorer {
 		StorageFile file = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
 
 		return (File) file;	
+	}
+	
+	public void receivePDF(String pdfString){
+			byte[] pdfBin = new byte[819200001];
+			//url safe?
+			pdfBin = Base64.decodeBase64(pdfString);
 	}
 	
 }

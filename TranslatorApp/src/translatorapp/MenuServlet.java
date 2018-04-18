@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
@@ -99,7 +100,9 @@ public class MenuServlet extends HttpServlet {
 				}
 
         	}else if(param.equals("translatedPDF")){
-				String pdfURI = req.getParameter("outPDF");
+				String pdfString = req.getParameter("outPDF");
+				fe.receivePDF(pdfString);
+				
 
 			}else if(param.equals("Scan")){
         	

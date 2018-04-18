@@ -74,12 +74,12 @@ function translateDocument(sourceLang, targetLang){
             outPDF = createPDF(textArray);
             //Send PDF
             var menuUrl = "MainMenu"; 
-            url = menuUrl + "?Action=translatedPDF&PDF=" + outPDF;
             //SENT
             //conversion
-            outPDF = outPDF.replace(/+/g,"-");
+            outPDF = outPDF.replace(/\+/g,"-");
 	        outPDF = outPDF.replace(/\//g,"_");
             //conversion
+            url = menuUrl + "?Action=translatedPDF&PDF=" + outPDF;
             fetch(url)
             .then((resp) => {
                     resp.text().then((text) => {
@@ -97,8 +97,8 @@ function translateDocument(sourceLang, targetLang){
 function createPDF(array){
     var doc = new jsPDF({
         orientation: 'portrait',
-        unit: 'px',
-        format: [841,595]
+        unit: 'px'
+        //format: [4,2]
     })
     for (i=0; i< array.length; i++){
         var txt = array[i][6];
@@ -110,7 +110,7 @@ function createPDF(array){
     }
     
     doc.save("test.pdf");
-    out = doc.output('datauri');
+    out = btoa(doc.output());
     return out;
 }
 //----------------------Functions---------------------------------
