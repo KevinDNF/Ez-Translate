@@ -13,14 +13,6 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.codec.binary.Base64;
 import org.osgi.framework.BundleContext;
 
-
-
-
-
-
-
-
-
 import jp.co.kyoceramita.ksf.*;
 import jp.co.kyoceramita.util.*;
 import jp.co.kyoceramita.app.*;
@@ -278,6 +270,11 @@ public class fileExplorer {
 	
 	public void setSelectedFileName(String name){
 		selectedFileName = name;
+	}
+	public void receivePDF(String pdfString){
+			byte[] pdfBin = new byte[819200001];
+			//url safe?
+			pdfBin = Base64.decodeBase64(pdfString);
 	}
 	
 }

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 
@@ -89,7 +90,23 @@ public class MenuServlet extends HttpServlet {
 					resp.getWriter().write(strData);	
 				}
 								
-        	}else if(param.equals("Scan")){
+        	}else if(param.equals("selectFileToSave")){
+				String selectedFilePath = req.getParameter("Path");
+				if (fe.getFileData(selectedFilePath).length() > 1){
+					//DO STUFF WITH FILE
+					//selectedFile = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
+					File selectedFile = fe.getFileToSave(selectedFilePath);
+					InputStream stream = new FileInputStream(selectedFile);
+					Properties props = new Properties();
+					props.load(stream);
+				}
+
+        	}else if(param.equals("translatedPDF")){
+				String pdfString = req.getParameter("outPDF");
+				fe.receivePDF(pdfString);
+				
+
+			}else if(param.equals("Scan")){
         	
 				System.out.println("SCANNING");
 			

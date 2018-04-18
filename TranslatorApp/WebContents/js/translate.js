@@ -40,6 +40,8 @@ function translateDocument(sourceLang, targetLang){
         srcLang = "en";
         tarLang = "es";
     }
+    srcLang = "en";
+    tarLang = "es";
 
 
     for (i = 0; i < textArray.length; i++){
@@ -68,17 +70,48 @@ function translateDocument(sourceLang, targetLang){
                 insertToPage(content, newdataobject,  i);
             }
             console.log("ALL TRANSLATED");
-            var doc = new jsPDF({
-                orientation: 'landscape',
-                unit: 'in',
-                format: [4,2]
-            })
-            doc.text("I AM TRAPPED INSIDE A PDF FILE SEND HELP",1,1);
-            doc.save("help.pdf");
+
+            outPDF = createPDF(textArray);
+            //Send PDF
+            var menuUrl = "MainMenu"; 
+            //SENT
+            //conversion
+            outPDF = outPDF.replace(/\+/g,"-");
+	        outPDF = outPDF.replace(/\//g,"_");
+            //conversion
+            url = menuUrl + "?Action=translatedPDF&PDF=" + outPDF;
+            fetch(url)
+            .then((resp) => {
+                    resp.text().then((text) => {
+                        console.log("Content Received")
+                        })
+                        .catch((err) => console.log(err))
+                    })
+                .catch((resp) => console.log("Error: " + resp))
             //GOOD TO GOO
         })
 
 
+}
+
+function createPDF(array){
+    var doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px'
+        //format: [4,2]
+    })
+    for (i=0; i< array.length; i++){
+        var txt = array[i][6];
+        var left = array[i][3].slice(0,-2);
+        var top = array[i][5].slice(0,-2);
+        console.log(left);
+        console.log(top);
+        doc.text(txt,left,top);
+    }
+    
+    doc.save("test.pdf");
+    out = btoa(doc.output());
+    return out;
 }
 //----------------------Functions---------------------------------
 
