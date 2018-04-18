@@ -62,15 +62,15 @@
                 </div>
                 <div class="main">
                     <p>From:</p>
-                    <button type="button" class="longButton">
-                       Spanish 
+                    <button type="button" class="longButton" onclick="showLanguageOptions('srcLang')">
+                       <span id="srcLang">English</span>
                     </button>
 
                     <img src="img/arrow.png" alt="arrow">
 
                     <p>To:</p>
-                    <button type="button" class="longButton">
-                       English 
+                    <button type="button" class="longButton" onclick="showLanguageOptions('tarLang')">
+                       <span id="tarLang">Spanish</span>
                     </button>
                 </div>
             </form>
@@ -198,27 +198,42 @@
 
 			</form>
 			
-			<form id="printingOptions">
+			<form id="languageOptions">
                 <div class="header">
-                    <h2>Print options</h2>
+                    <h2>Choose language</h2>
                     <button type="button" class="close" onclick="exitOverlay()">
                     </button>
                 </div>
-                <div class="main">
-                	<select name="colormode">
-                		<option>AUTO</option>
-                		<option>GRAY</option>
-                		<option>B&W</option>
-                		<option>FILE PROPERTY</option>
-                	</select>
-<!--                 	<select name="colormode"> -->
-<!--                 		<option>AUTO</option> -->
-<!--                 		<option>GRAY</option> -->
-<!--                 		<option>B&W</option> -->
-<!--                 		<option>FILE PROPERTY</option> -->
-<!--                 	</select> -->
+                <div id="languageOptionsMain" class="main">
+                	<button type="button" name="English" id="en" class="longButton" onclick="showSelectedLanguage('en')">
+                   		English
+                    </button>
+                    <button type="button" name=Spanish id="es" class="longButton" onclick="showSelectedLanguage('es')">
+                   		Spanish
+                    </button>
+                    <button type="button" name="German" id="de" class="longButton" onclick="showSelectedLanguage('de')">
+                   		German
+                    </button>
+                    <button type="button" name="French" id="fr" class="longButton" onclick="showSelectedLanguage('fr')">
+                   		French
+                    </button>
+                    <button type="button" name="Japanese" id="ja" class="longButton" onclick="showSelectedLanguage('ja')">
+                   		Japanese
+                    </button>
+                    <button type="button" name="Hindi" id="hi" class="longButton" onclick="showSelectedLanguage('hi')">
+                   		Hindi
+                    </button>
+                     <button type="button" name="Italian" id="it" class="longButton" onclick="showSelectedLanguage('it')">
+                   		Italian
+                    </button>
+                    <button type="button" name="Hungarian" id="hu" class="longButton" onclick="showSelectedLanguage('hu')">
+                   		Hungarian
+                    </button>
 				</div> 
             </form>
+            
+            <div id="loadingOverlay">
+            </div>
 			
         </div>
     </div>
@@ -230,20 +245,23 @@
         //onPdfSelection
 		function selectFile(path){
             cleanContainer();
-			console.log("Loading...")
+			console.log("Loading...");
 			url = menuUrl + "?Action=SelectedFile&Path=" + path;
+			/*document.getElementById("overlay").classList.add("show");
+		    document.getElementById("loadingOverlay").classList.add("show");*/
 			fetch(url)
 			.then((resp) =>{
 				resp.text().then((buf) => {
 					//resp.text() is a Base64 encoded pdf
 					console.log("Buffer Received");
+					exitOverlay();
 					//convert text to base64 encoded data
 					arrayData = base64toUint8Array(buf);
 					console.log("Base64 -> Uint8Array: Success!");
                     //loadPDF({data: arrayData});	
                     startViewer({data: arrayData});
 				})
-			})
+			});
 		}
 
         //------PDF VIEWER FUNCTIONALITY STARTS HERE----//

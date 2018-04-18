@@ -18,6 +18,35 @@ function loginToCloud(){
     document.getElementById("pickCloud").classList.remove("show");
     document.getElementById("login").classList.add("show");
 }
+
+var srcLang = "en";
+var tarLang = "es";
+var langType = "srcLang"
+
+function showSelectedLanguage(lang){
+	console.log("selected: " + lang);
+	languages = document.getElementById("languageOptionsMain");
+	buttons = languages.children;
+	for (i=0;i<buttons.length;i++){
+    	buttons[i].classList.remove("selected");
+    }
+	buttonName = document.getElementById(lang).name;
+	document.getElementById(langType).innerHTML=buttonName;
+	document.getElementById(lang).classList.add("selected");
+}
+
+function showLanguageOptions(langType){
+	document.getElementById("overlay").classList.add("show");
+    document.getElementById("languageOptions").classList.add("show");
+    this.langType = langType;
+    if (langType == "srcLang"){
+    	showSelectedLanguage(srcLang);
+    } else {
+    	showSelectedLanguage(tarLang);
+    }
+}
+
+
 function printDocumentOptions(){
     document.getElementById("overlay").classList.add("show");
     document.getElementById("printingOptions").classList.add("show");

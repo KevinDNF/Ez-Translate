@@ -139,6 +139,7 @@ form .longButton{
     margin-top:5px;
     padding:7px 0px;
     margin-bottom:10px;
+    max-height: 30px;
 }
 form .longButton:active{
     margin-bottom:7px;
@@ -176,7 +177,23 @@ form .main img{
 	min-width: 100%;
 	height: 192px;
   	display: flex;
-    justify-content: center;
+  	flex-wrap: wrap;
+	justify-content: center;
+}
+#languageOptionsMain{
+	padding-top: 5px;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+#languageOptionsMain .longButton{
+	max-width: 40%;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#languageOptionsMain .longButton.selected{
+	color: black;
+	background-color: lightgrey;
+	box-shadow: inset 2px 4px 5px rgba(0,0,0,0.42);;
 }
 #fileExplorer .main{
 	min-width: 100%;
@@ -233,6 +250,11 @@ iframe{
     background-color:rgb(233,234,233);
     border-radius:5px;
     display:none;
+}
+#loadingOverlay{
+	background-image: url('../gif/loadingAnimation.gif') no-repeat 5px 3px;
+	/*background-color: grey;*/
+	padding-left: 20px;
 }
 .colorblock{
 	padding:20px;
