@@ -97,8 +97,8 @@ function translateDocument(sourceLang, targetLang){
 function createPDF(array){
     var doc = new jsPDF({
         orientation: 'portrait',
-        unit: 'px'
-        //format: [4,2]
+        unit: 'px',
+        format: [595,841]
     })
     for (i=0; i< array.length; i++){
         var txt = array[i][6];
