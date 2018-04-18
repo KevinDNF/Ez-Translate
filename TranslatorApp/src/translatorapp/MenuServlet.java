@@ -71,6 +71,7 @@ public class MenuServlet extends HttpServlet {
 				System.out.println(selectedFilePath);
 				System.out.println("-------------------");
 				
+				fe.setSelectedFileName(selectedFilePath.substring(selectedFilePath.lastIndexOf("/")+1, selectedFilePath.length()-4));
 				//byte[] binFile = fe.getFile(selectedFile);
 				String strData = fe.getFileData(selectedFilePath);
 				if (strData.length() > 1){
@@ -87,17 +88,6 @@ public class MenuServlet extends HttpServlet {
 					resp.getWriter().write(strData);	
 				}
 								
-        	}else if(param.equals("selectFileToSave")){
-				String selectedFilePath = req.getParameter("Path");
-				if (fe.getFileData(selectedFilePath).length() > 1){
-					//DO STUFF WITH FILE
-					//selectedFile = sm.getStorage(StorageType.USB_MEMORY)[0].getStorageFile(path);
-					File selectedFile = fe.getFileToSave(selectedFilePath);
-					InputStream stream = new FileInputStream(selectedFile);
-					Properties props = new Properties();
-					props.load(stream);
-				}
-
         	}else if(param.equals("Scan")){
         	
 				System.out.println("SCANNING");
@@ -110,6 +100,8 @@ public class MenuServlet extends HttpServlet {
 				pj.createJobAttributeSet();
 				pj.createJob();
 				System.out.println(pj.start() + " says PrinterJob.start()");
+			}else if(param.equals("SaveToUSB")){
+				fe.copyFromTempToTranslatedDocuments();
 			}
 			
 			
