@@ -10,8 +10,7 @@
     <title>Ez Translate</title>
     <script src="/ksf/js/hypas-api.js" language="JavaScript"></script>
     <script src="js/script.js"></script>
-    <script src="js/translate.js"></script>
-
+        <!-- More Scripts at the bottom of the page-->
 		<!-- Library PDF.JS -->
     <script src="js/lib/pdf.js"></script>
     <script src="js/lib/pdf.worker.js"></script>
@@ -228,6 +227,7 @@
 	<script>
         //onPdfSelection
 		function selectFile(path){
+            cleanContainer();
 			console.log("Loading...")
 			url = menuUrl + "?Action=SelectedFile&Path=" + path;
 			fetch(url)
@@ -254,10 +254,11 @@
                 var container = document.getElementById("canvasContainer");
                 for (var i=1; i <= pdf.numPages; i++){
                     pdf.getPage(i).then((page) => {
-                        var scale = 0.5;
+                        var scale = 1; //0.5
                         var viewport = page.getViewport(scale);
                         var div = document.createElement("div");
                         div.setAttribute("id","page-" + (page.pageIndex + 1));
+                        div.setAttribute("class", "page");
                         div.setAttribute("style", "position:relative");
                         container.appendChild(div);
 
@@ -289,12 +290,18 @@
 
                                 textLayer.setTextContent(textCont);
                                 textLayer.render();
+                                //RENDER IS DONE
+                                //Translation here
                             })
                     })
                 }
         })
         }
-        
+
+        function cleanContainer(){
+            var container = document.getElementById("canvasContainer");
+            container.innerHTML = "";
+        }
 
         //---------------------Utility functions------------------//
 		// base64 --> uint8Array
@@ -323,6 +330,7 @@
 		  	return array;
 		}
         
-	</script> 
+    </script> 
+    <script src="js/translate.js"></script>
 </body>
 </html>

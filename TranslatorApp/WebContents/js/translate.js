@@ -1,47 +1,88 @@
 //KevinDNF
 //
 
+//Globals
+'strict'
+var sourcePointer = document.getElementById("canvasContainer");
+var clonedSource = sourcePointer.cloneNode(true);
+
+var pageID = 0;
+var targetPath = "/";
+var content;
+
+//weird by idk at this point
+var finishedTranslation = false;
+var counter = 0;
 
 //main function
 //call to start translating document
 //Source document from id="frame" has to have the same DOM structure as pdf.js
 //Target document is id="edited" which can be an empty div
 function translateDocument(){
-    var pageID = 0;
-    var pages = getPages("frame")
+    sourcePointer = document.getElementById("canvasContainer");
+    clonedSource = sourcePointer.cloneNode(true);
+    content = sourcePointer;
+    var pages = getPages(content)
 
     //duplicates viewer
-    pageContent = pages[pageID].getElementsByClassName("textLayer")[0].outerHTML;
-    document.getElementById("edited").innerHTML = pageContent; 
+    //pageContent = pages[pageID].getElementsByClassName("textLayer")[0].outerHTML;
+    //document.getElementById("edited").innerHTML = pageContent; 
 
     //Optimize Text
-    optimize(document.getElementById("edited"));
+    optimize(content);
     //Process text Elements
 
-    page = document.getElementById("edited");
-    var textArray = processTextElements(page);
+    //page = document.getElementById("edited");
+    var textArray = processTextElements(content);
+    var promiseArray = [];
+    var srcLang = "en";
+    var tarLang = "es";
+
     for (i = 0; i < textArray.length; i++){
         //translate, position, replace then redraw
-        calculateNewElement(textArray[i],i);
+        //calculateNewElement(textArray[i],i);
+        var txt = textArray[i][6];
+
+        var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
+            + srcLang + "&tl=" + tarLang + "&dt=t&q=" + encodeURI(txt);
+        promiseArray.push(requestTxt(url));
     }
-/*
-*/
+
+    Promise.all(promiseArray)
+        .then((array) =>{
+            for (i = 0; i < textArray.length; i++){
+                var dataobject = textArray[i];
+                var newdataobject = dataobject;
+                var translatedtext = array[i];
+                newdataobject[0] = dataobject[0];//change
+                newdataobject[1] = dataobject[1];//change
+                newdataobject[2] = dataobject[2];//maybe use a dictionary??
+                newdataobject[3] = dataobject[3];
+                newdataobject[4] = dataobject[4];
+                newdataobject[5] = dataobject[5];
+                newdataobject[6] = translatedtext;
+                insertToPage(content, newdataobject,  i);
+            }
+            console.log("ALL TRANSLATED");
+            //GOOD TO GO
+        })
+
+
 }
 //----------------------Functions---------------------------------
+
+
 
 //returns an array of pages in from
 //@param from is the container of the pages
 function getPages(from){
-    var iframe = document.getElementById(from);
-    var iframeContent = iframe.contentDocument || iframe.contentWindow.document;
-
-    var pages = iframeContent.getElementsByClassName("page");
+    var pages = from.getElementsByClassName("page");
     return pages;
 }
 //returns the text elements of the page
 //@param page to extract elements
-function getTextElements(page){
-    var textLayer = page.getElementsByClassName("textLayer")[0];
+function getTextElements(src){
+    var textLayer = src.getElementsByClassName("textLayer")[pageID];
     var textElements = textLayer.getElementsByTagName("div");
     return textElements;
 }
@@ -79,45 +120,10 @@ function processTextElements(page){
 }
 
 //---------------------DATA MANIPULATION--------------------------
-//Text gets translated here
-//Todo 
-// - Calculate position
-// - Calculate style
-// - customize target and source language
-function calculateNewElement(dataObject, index){
-    var srcLang = "en";
-    var tarLang = "es";
-    var page = document.getElementById("edited");
-    var txt = dataObject[6];
-
-    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" 
-        + srcLang + "&tl=" + tarLang + "&dt=t&q=" + encodeURI(txt);
-
-    fetch(url)
-        .then(function(resp){
-            resp.json()
-            .then(function(data){
-                translatedText = data[0][0][0];
-                //maths goes here
-                var newDataObject = dataObject;
-                newDataObject[0] = dataObject[0];//change
-                newDataObject[1] = dataObject[1];//change
-                newDataObject[2] = dataObject[2];//maybe use a dictionary??
-                newDataObject[3] = dataObject[3];
-                newDataObject[4] = dataObject[4];
-                newDataObject[5] = dataObject[5];
-                newDataObject[6] = translatedText;
-                insertToPage(page, newDataObject,  index);
-            })
-            .catch(function(resp){
-                console.log("Invalid respose: " + resp);
-                //not json?
-            })
-        })
-        .catch(function(resp){
-            console.log("Error: " + resp);
-            //no connection? or some other reason?
-        })
+function requestTxt(url){
+    return fetch(url)
+        .then(resp => resp.json())
+        .then(data => data[0][0][0])
 }
 
 // Inserts the data object to the page
@@ -131,17 +137,18 @@ function insertToPage(page, data, i){
     textElements[i].style.length = data[4];
     textElements[i].style.top = data[5];
     textElements[i].innerHTML = data[6];
+    console.log(page);
 }
 
-function optimize(edited){
+function optimize(htmlToOptimize){
     //0 = CssText
     //1 = fontFamily
     //2 = fontSize
     //3 = left
     //4 = length
     //5 = top  
-    console.log(edited);
-    textDivs = getTextElements(edited);
+    //console.log(htmlToOptimize);
+    textDivs = getTextElements(htmlToOptimize);
     
     var prevDiv = null;
     var currDiv = null;
@@ -152,9 +159,9 @@ function optimize(edited){
         currDiv = textDivs[i];
 
         if (  (currDiv != null) && (prevDiv != null) && checkProximity([currDiv, prevDiv],3)){
-            console.log("same Line");
-            console.log(prevDiv);
-            console.log(currDiv);
+            //console.log("same Line");
+            //console.log(prevDiv);
+            //console.log(currDiv);
             prevDiv.innerHTML += currDiv.innerHTML;
             textDivs[i].outerHTML = null;
             currDiv = prevDiv;
