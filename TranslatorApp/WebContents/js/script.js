@@ -1,3 +1,15 @@
+function saveToUSB(){
+	url = menuUrl + "?Action=SaveToUSB";
+	fetch(url);
+	/*.then((resp) => {
+		resp.text().then((text) => {
+			alert(text);
+			})
+			.catch((err) => console.log(err))
+		})
+	.catch((resp) => console.log("Error: " + resp)
+	});*/
+}
 function pickCloudService(){
     document.getElementById("overlay").classList.add("show");
     document.getElementById("pickCloud").classList.add("show");
@@ -26,10 +38,13 @@ function pickAColour(){
     document.getElementById("overlay").classList.add("show");
     document.getElementById("pickAColour").classList.add("show");
 }
+
+var menuColor = "rgb(223,55,55)";
 function changeColor(color){
+	menuColor = color;
     headers = document.getElementsByClassName("header");
     for (i=1; i<headers.length; i++){
-    headers[i].style.backgroundColor = color;
+    	headers[i].style.backgroundColor = menuColor;
     }
 }
 var menuUrl = "MainMenu"; 
@@ -43,6 +58,7 @@ function openFileExplorer(path){
 				document.getElementById("fileExplorer").innerHTML = text;
 				document.getElementById("overlay").classList.add("show");
 				document.getElementById("fileExplorer").classList.add("show"); 
+				changeColor(menuColor);
 				})
 				.catch((err) => console.log(err))
 			})

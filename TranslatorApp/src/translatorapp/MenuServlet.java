@@ -71,6 +71,7 @@ public class MenuServlet extends HttpServlet {
 				System.out.println(selectedFilePath);
 				System.out.println("-------------------");
 				
+				fe.createTempFolder();
 				fe.setSelectedFileName(selectedFilePath.substring(selectedFilePath.lastIndexOf("/")+1, selectedFilePath.length()-4));
 				//byte[] binFile = fe.getFile(selectedFile);
 				String strData = fe.getFileData(selectedFilePath);
@@ -102,6 +103,8 @@ public class MenuServlet extends HttpServlet {
 				System.out.println(pj.start() + " says PrinterJob.start()");
 			}else if(param.equals("SaveToUSB")){
 				fe.copyFromTempToTranslatedDocuments();
+				/*resp.setContentType("application/text");
+				resp.getWriter().write("Successfully saved to USB!");*/
 			}
 			
 			

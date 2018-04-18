@@ -51,6 +51,19 @@ public class fileExplorer {
 		
 	}
 	
+	public void createTempFolder(){
+		StorageFile file = null;
+		Storage device = sm.getStorage(StorageType.USB_MEMORY)[0];
+			if (device.isAvailable()){
+				System.out.println("SCANNING : " + device);
+				file = device.getStorageFile("/.temp");
+				file.mkdir();
+				System.out.println("File.getPath():  " + file.getPath());
+			}else{
+				System.out.println("Device : " + device + " is unavailable.");
+			}
+	}
+	
 	public void copyFromTempToTranslatedDocuments(){
 		StorageFile[] files = null;
 		StorageFile file = null;

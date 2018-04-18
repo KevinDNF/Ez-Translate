@@ -176,6 +176,12 @@ form .main img{
 	min-width: 100%;
 	height: 192px;
   	display: flex;
+    justify-content: center;
+}
+#fileExplorer .main{
+	min-width: 100%;
+	height: 192px;
+  	display: flex;
     flex-wrap: wrap;
     justify-content: center;
   	overflow-y: auto;

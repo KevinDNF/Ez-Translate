@@ -97,7 +97,7 @@
                     </a>
                     -->
 					
-                    <button type="button" onclick="openFileExplorer('/')">
+                    <button type="button" onclick="saveToUSB()">
                         <img src="img/USB.png" alt="USB">
                         <p>USB
                     </button>
@@ -107,7 +107,7 @@
                         <p>Cloud
                     </button>
                      --> 
-                    <button type="button" onclick="printDocumentOptions()">
+                    <button type="button" onclick="printDocument()">
                          <img src="img/Print.png" alt="Print">
                          <p>Print
                     </button>           
@@ -142,7 +142,6 @@
                 <div class="header">
                     <h2>Pick a cloud service</h2>
                     <button type="button" class="close" onclick="exitOverlay()">
-                        close
                     </button>
                 </div>
                 <div class="main">
@@ -165,7 +164,6 @@
                 <div class="header">
                     <h2>Login</h2>
                     <button type="button" class="close" onclick="exitOverlay()">
-                        close
                     </button>
                 </div>
                 <div class="main">
@@ -179,7 +177,6 @@
                 <div class="header">
                     <h2>Pick a colour</h2>
                     <button type="button" class="close" onclick="exitOverlay()">
-                        close
                     </button>
                 </div>
                 <div class="main">
@@ -206,10 +203,15 @@
                 <div class="header">
                     <h2>Print options</h2>
                     <button type="button" class="close" onclick="exitOverlay()">
-                        close
                     </button>
                 </div>
                 <div class="main">
+                	<select name="colormode">
+                		<option>AUTO</option>
+                		<option>GRAY</option>
+                		<option>B&W</option>
+                		<option>FILE PROPERTY</option>
+                	</select>
 <!--                 	<select name="colormode"> -->
 <!--                 		<option>AUTO</option> -->
 <!--                 		<option>GRAY</option> -->
