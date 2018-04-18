@@ -98,7 +98,10 @@ public class MenuServlet extends HttpServlet {
 					props.load(stream);
 				}
 
-        	}else if(param.equals("Scan")){
+        	}else if(param.equals("translatedPDF")){
+				String pdfURI = req.getParameter("outPDF");
+
+			}else if(param.equals("Scan")){
         	
 				System.out.println("SCANNING");
 			
