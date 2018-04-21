@@ -7,10 +7,10 @@ Out application consisted of translating documents from one language to another.
 
 Due to technical difficulties this version is not compatible with the current MFP Printers.
 
-![MainMenu](Screenshots/MainMenu.png)
+![MainMenu](Screenshots/MainMenu.PNG)
 
-![FileExplorer](Screenshots/FileExplorer.png)
+![FileExplorer](Screenshots/FileExplorer.PNG)
 
-![LanguageSelection](Screenshots/LanguageSelection.png)
+![LanguageSelection](Screenshots/LanguageSelection.PNG)
 
 ![Translation](Screenshots/Translation.png)
