@@ -1,32 +1,16 @@
-## Translator App
+## Ez-Translate
 
-# Target Audience
+First Prize Entry for Kyocodes 2018 April Competition held at Kyocera Document Solution UK.
 
-Multilingual companies.
+We were tasked with designing and programming a application for the HyPass Multifunctional Printers. Utilizing their HyPass API.
+Out application consisted of translating documents from one language to another.
 
-International Schools/Universities
+Due to technical difficulties this version is not compatible with the current MFP Printers.
 
-# Features
+![MainMenu](Screenshots/MainMenu.png)
 
-* Translate Documents
-* Communicate the idea of the document, not a perfect translation
-* Auto rotate scanned file to correct orientation
-* Preview of the translated document
-* Zoom in/out
-* User friendly interface
-* Sound feedback on user interaction
-* Loading Animations and effects
+![FileExplorer](Screenshots/FileExplorer.png)
 
-# Outputs
-* Print
-* Save to USB
-* Upload Cloud services - Google Cloud, Mega, One drive
+![LanguageSelection](Screenshots/LanguageSelection.png)
 
-# Input File
-* Scan
-* USB
-* Dowload from Cloud services - Google Cloud, Mega, One drive
-
-# Future Goals
-* Auto detect language
-* Read handwritten text - OCR
+![Translation](Screenshots/Translation.png)
